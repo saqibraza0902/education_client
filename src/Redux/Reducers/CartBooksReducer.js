@@ -11,7 +11,7 @@ const CartBooksReducer = (state = initialState, action) => {
                 // If the item already exists in the cart, update its quantity
                 const updatedCart = [...state.cart];
                 console.log(existingItemIndex)
-                updatedCart[existingItemIndex].count += 1;
+                updatedCart[existingItemIndex].count += action.payload.count;
 
                 return {
                     cart: updatedCart
