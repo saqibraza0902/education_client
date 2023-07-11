@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import Footer from "../GlobalComponents/Footer";
 import Navbar from "../GlobalComponents/Navbar";
 import { RatingStar } from "rating-star";
+// @ts-ignore
 import courses_bg from "../../Images/Banners/others_bg.jpg";
 import api from "../../AxiosInstance/api";
 import { useDispatch, useSelector } from "react-redux";
-import { BookActions } from "../../Redux/Actions/Actions";
 import { useLocation, useNavigate } from "react-router-dom";
+import { books } from "../../Redux/Features/BookSlice";
 
 const Shop = () => {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ const Shop = () => {
   const page = Number(params.get("page")) || 1;
   const [totalNumOfPages, setTotalNumOfPages] = useState(0);
   const dispatch = useDispatch();
-  const AllShopBooks = useSelector((state) => state.book.books);
+  const AllShopBooks = useSelector((state: any) => state.book.books);
   const pages = new Array(totalNumOfPages).fill(null).map((v, i) => i);
   console.log(pages);
   useEffect(() => {
@@ -22,7 +23,7 @@ const Shop = () => {
       try {
         const { data } = await api.get(`/book/get-books?page=${page}`);
         setTotalNumOfPages(data.totalPage);
-        dispatch(BookActions(data.book));
+        dispatch(books(data.book));
       } catch (error) {
         console.log(error);
       }
@@ -30,10 +31,10 @@ const Shop = () => {
     getBooks();
     // navigate(`/shop?page=${1}`);
   }, [dispatch, navigate, page]);
-  const toDetailComponent = (id) => {
+  const toDetailComponent = (id: string) => {
     navigate(`/shop/book?id=${id}`);
   };
-  const handlePageNum = (pageIndex) => {
+  const handlePageNum = (pageIndex: number) => {
     window.location.href = `/shop?page=${pageIndex + 1}`;
   };
 
@@ -56,7 +57,7 @@ const Shop = () => {
       <section className="bg-[#f6f6f6] h-max py-20 px-10">
         <div>
           <div className="grid mt-5 grid-cols-1 justify-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {AllShopBooks?.map((item, index) => (
+            {AllShopBooks?.map((item: any, index: number) => (
               <div
                 className="mx-2 cursor-pointer"
                 key={index}

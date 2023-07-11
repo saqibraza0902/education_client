@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../GlobalComponents/Footer";
 import Navbar from "../GlobalComponents/Navbar";
+// @ts-ignore
 import courses_bg from "../../Images/Banners/others_bg.jpg";
 import { useLocation } from "react-router-dom";
 import { RatingStar } from "rating-star";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import api from "../../AxiosInstance/api";
-import { AddToCart } from "../../Redux/Actions/Actions";
+import { AddCart } from "../../Redux/Features/CartSlice";
 
 const BookDetails = () => {
-  const location = useLocation();
   const [count, setCount] = useState(1);
-  const [book, setBook] = useState();
-  const AllBooks = useSelector((state) => state.book.feedBooks);
-  const cartProducts = useSelector((state) => state.cart.cart);
+  const [book, setBook] = useState<any>();
+  const AllBooks = useSelector((state: any) => state.book.feedBooks);
+  const cartProducts = useSelector((state: any) => state.cart.cart);
   const dispatch = useDispatch();
   const params = new URLSearchParams(useLocation().search);
   const id = params.get("id");
@@ -34,7 +34,7 @@ const BookDetails = () => {
 
   console.log(cartProducts);
 
-  const handleCountClick = (operation) => {
+  const handleCountClick = (operation: any) => {
     if (operation === "sub" && count >= 2) {
       setCount(count - 1);
     }
@@ -43,7 +43,7 @@ const BookDetails = () => {
     }
   };
   const AddtoCart = () => {
-    dispatch(AddToCart(book));
+    dispatch(AddCart(book));
   };
   return (
     <div>
@@ -112,7 +112,7 @@ const BookDetails = () => {
               <div>
                 <button
                   className="my-4 w-36 px-4 py-2 bg-[#002147] text-[#fdc800] font-semibold"
-                  onClick={() => AddtoCart(location.state.item)}
+                  onClick={() => AddtoCart()}
                 >
                   Add to Cart
                 </button>
@@ -130,7 +130,7 @@ const BookDetails = () => {
           </p>
         </div>
         <div className="grid mt-5 grid-cols-1 justify-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {AllBooks?.map((item, index) => (
+          {AllBooks?.map((item: any, index: number) => (
             <div className="mx-2" key={index}>
               <div className="w-max pr-4 bg-white py-4 ">
                 <img src={item.image} alt="" />

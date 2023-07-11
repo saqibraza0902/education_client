@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsHeadphones } from "react-icons/bs";
 import { GrFacebookOption } from "react-icons/gr";
 import { GoMail, GoThreeBars } from "react-icons/go";
@@ -6,21 +6,40 @@ import { TiSocialTwitter, TiSocialGooglePlus } from "react-icons/ti";
 import { AiOutlineDribbble } from "react-icons/ai";
 import { FaPinterestP } from "react-icons/fa";
 import { BsCart2 } from "react-icons/bs";
+// @ts-ignore
 import logo from "../../Images/Logo/logo.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const [show, setShow] = useState(false);
-  const cart = useSelector((state) => state.cart.cart);
-  const scrollBar = () => {
-    if (window.scrollY > 150) {
-      setShow(true);
-    } else if (window.scrollY <= 150) {
-      setShow(false);
-    }
-  };
-  window.addEventListener("scroll", scrollBar);
+  const [show, setShow] = useState<any>(false);
+  const cart = useSelector((state: any) => state.cart.cart);
+
+  useEffect(() => {
+    const scrollBar = () => {
+      if (window.scrollY > 150) {
+        setShow(true);
+      } else {
+        setShow(false);
+      }
+    };
+
+    // Retrieve the previous show state from local storage
+    const previousShowState = localStorage.getItem("showNavbar");
+    setShow(previousShowState === "true");
+
+    window.addEventListener("scroll", scrollBar);
+
+    return () => {
+      window.removeEventListener("scroll", scrollBar);
+    };
+  }, []);
+
+  // Save the current show state to local storage whenever it changes
+  useEffect(() => {
+    return localStorage.setItem("showNavbar", show);
+  }, [show]);
+
   return (
     <div className="relative">
       <nav className="text-white bg-[#002147] flex flex-col gap-2 md:flex-row justify-between py-2 px-10">
@@ -63,11 +82,11 @@ const Navbar = () => {
       </nav>
       <nav
         className={`z-50 hidden md:flex items-center justify-between px-10 py-4 transition-all duration-300
-            ${
-              show === true
-                ? "bg-white top-[-8px] fixed w-full shadow translate-y-2"
-                : ""
-            }`}
+    ${
+      show === true
+        ? "bg-white top-[-8px] fixed w-full shadow translate-y-2"
+        : "translate-y-0"
+    }`}
       >
         <div>
           <span>

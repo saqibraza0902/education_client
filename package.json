@@ -4,11 +4,17 @@
   "private": true,
   "dependencies": {
     "@mui/material": "^5.11.10",
+    "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^29.5.3",
+    "@types/node": "^20.4.1",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@types/react-redux": "^7.1.25",
     "aos": "^2.3.4",
-    "axios": "^1.2.1",
+    "axios": "^1.4.0",
     "bootstrap": "^5.2.1",
     "daisyui": "^2.31.0",
     "flowbite": "^1.5.3",
@@ -30,6 +36,7 @@
     "redux": "^4.2.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.6",
+    "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -57,6 +64,8 @@
     ]
   },
   "devDependencies": {
+    "@types/aos": "^3.0.4",
+    "@types/react-slick": "^0.23.10",
     "autoprefixer": "^10.4.12",
     "postcss": "^8.4.17",
     "tailwindcss": "^3.1.8"
