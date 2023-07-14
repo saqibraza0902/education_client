@@ -5,17 +5,17 @@ import { RatingStar } from "rating-star";
 // @ts-ignore
 import courses_bg from "../../Images/Banners/others_bg.jpg";
 import api from "../../AxiosInstance/api";
-import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { books } from "../../Redux/Features/BookSlice";
+import { setBooks } from "../../Redux/Features/BookSlice";
+import { useAppDispatch, useAppSelector } from "../../Hooks";
 
 const Shop = () => {
   const navigate = useNavigate();
   const params = new URLSearchParams(useLocation().search);
   const page = Number(params.get("page")) || 1;
   const [totalNumOfPages, setTotalNumOfPages] = useState(0);
-  const dispatch = useDispatch();
-  const AllShopBooks = useSelector((state: any) => state.book.books);
+  const dispatch = useAppDispatch();
+  const AllShopBooks = useAppSelector((state) => state.books.books);
   const pages = new Array(totalNumOfPages).fill(null).map((v, i) => i);
   console.log(pages);
   useEffect(() => {
@@ -23,7 +23,7 @@ const Shop = () => {
       try {
         const { data } = await api.get(`/book/get-books?page=${page}`);
         setTotalNumOfPages(data.totalPage);
-        dispatch(books(data.book));
+        dispatch(setBooks(data.book));
       } catch (error) {
         console.log(error);
       }

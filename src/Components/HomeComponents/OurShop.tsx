@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { RatingStar } from "rating-star";
 import api from "../../AxiosInstance/api";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { feedBooks } from "../../Redux/Features/BookSlice";
+import { setFeedBooks } from "../../Redux/Features/BookSlice";
+import { useAppDispatch, useAppSelector } from "../../Hooks";
 const OurShop = () => {
-  const dispatch = useDispatch();
-  const AllBooks = useSelector((state: any) => state.book.feedBooks);
+  const dispatch = useAppDispatch();
+  const AllBooks = useAppSelector((state) => state.books.feedBooks);
   useEffect(() => {
     const getBooks = async () => {
       try {
         const { data } = await api.get("/book/feed-books");
-        dispatch(feedBooks(data));
+        dispatch(setFeedBooks(data));
       } catch (error) {
         console.log(error);
       }

@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const [show, setShow] = useState<any>(false);
   const cart = useSelector((state: any) => state.cart.cart);
-
+  console.log(cart);
   useEffect(() => {
     const scrollBar = () => {
       if (window.scrollY > 150) {

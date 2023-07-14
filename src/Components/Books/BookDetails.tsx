@@ -6,16 +6,15 @@ import courses_bg from "../../Images/Banners/others_bg.jpg";
 import { useLocation } from "react-router-dom";
 import { RatingStar } from "rating-star";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { useSelector, useDispatch } from "react-redux";
 import api from "../../AxiosInstance/api";
 import { AddCart } from "../../Redux/Features/CartSlice";
+import { useAppDispatch, useAppSelector } from "../../Hooks";
 
 const BookDetails = () => {
   const [count, setCount] = useState(1);
   const [book, setBook] = useState<any>();
-  const AllBooks = useSelector((state: any) => state.book.feedBooks);
-  const cartProducts = useSelector((state: any) => state.cart.cart);
-  const dispatch = useDispatch();
+  const AllBooks = useAppSelector((state) => state.books.feedBooks);
+  const dispatch = useAppDispatch();
   const params = new URLSearchParams(useLocation().search);
   const id = params.get("id");
   console.log(id);
@@ -24,15 +23,13 @@ const BookDetails = () => {
       try {
         const res = await api.get(`/book/get-book?id=${id}`);
         setBook(res.data.book);
-        console.log(res.data.book);
+        console.log(res.data.books);
       } catch (error) {
         console.log(error);
       }
     };
     getBook();
   }, [id]);
-
-  console.log(cartProducts);
 
   const handleCountClick = (operation: any) => {
     if (operation === "sub" && count >= 2) {
@@ -43,7 +40,11 @@ const BookDetails = () => {
     }
   };
   const AddtoCart = () => {
-    dispatch(AddCart(book));
+    const newBook = {
+      ...book,
+      qnty: count,
+    };
+    dispatch(AddCart(newBook));
   };
   return (
     <div>
