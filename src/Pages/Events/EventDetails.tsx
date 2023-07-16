@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Navbar from "../GlobalComponents/Navbar";
+import { Navbar, Footer } from "../../Components";
 // @ts-ignore
 import courses_bg from "../../Images/Banners/others_bg.jpg";
-import Footer from "../GlobalComponents/Footer";
 import { useLocation } from "react-router-dom";
 import {
   AiOutlineDribbble,

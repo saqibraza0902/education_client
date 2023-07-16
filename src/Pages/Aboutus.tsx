@@ -1,6 +1,5 @@
 import React from "react";
-import Navbar from "./GlobalComponents/Navbar";
-import Footer from "./GlobalComponents/Footer";
+import { Navbar, Footer } from "../Components";
 // @ts-ignore
 import courses_bg from "../Images/Banners/others_bg.jpg";
 // @ts-ignore

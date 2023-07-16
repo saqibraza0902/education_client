@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../GlobalComponents/Footer";
-import Navbar from "../GlobalComponents/Navbar";
+import { Navbar, Footer } from "../../Components";
 import { RatingStar } from "rating-star";
 // @ts-ignore
 import courses_bg from "../../Images/Banners/others_bg.jpg";
@@ -41,6 +40,7 @@ const Shop = () => {
   return (
     <div>
       <Navbar />
+
       <section
         className="h-[50vh] lg:h-[90vh]"
         style={{

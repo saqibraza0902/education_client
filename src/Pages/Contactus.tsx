@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 // @ts-ignore
 import courses_bg from "../Images/Banners/others_bg.jpg";
-import Footer from "./GlobalComponents/Footer";
-import Navbar from "./GlobalComponents/Navbar";
+import { Navbar, Footer } from "../Components";
 import { GiHeadphones } from "react-icons/gi";
 import { GoMail } from "react-icons/go";
 import { IoLocationOutline } from "react-icons/io5";

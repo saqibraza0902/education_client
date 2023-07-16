@@ -18,7 +18,7 @@ import brand3 from "../../Images/Logo/brand3.png";
 import brand4 from "../../Images/Logo/brand4.png";
 // @ts-ignore
 import brand5 from "../../Images/Logo/brand5.png";
-const Footer = () => {
+export const Footer = () => {
   return (
     <div className="relative">
       <div className="pt-20 grid grid-cols-2 footer-img justify-center gap-4 md:flex md:justify-between pb-44 px-5">
@@ -141,5 +141,3 @@ const Footer = () => {
     </div>
   );
 };
-
-export default Footer;

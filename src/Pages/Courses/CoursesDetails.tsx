@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "../GlobalComponents/Navbar";
+import { Navbar, Footer } from "../../Components";
 // @ts-ignore
 import courses_bg from "../../Images/Banners/others_bg.jpg";
 import { useLocation } from "react-router-dom";
@@ -10,8 +10,6 @@ import {
 } from "react-icons/ai";
 import { TiSocialGooglePlus, TiSocialPinterest } from "react-icons/ti";
 import { FaFacebookF } from "react-icons/fa";
-// import { BsClock } from 'react-icons/bs'
-import Footer from "../GlobalComponents/Footer";
 const CoursesDetails = () => {
   const location: any = useLocation();
 

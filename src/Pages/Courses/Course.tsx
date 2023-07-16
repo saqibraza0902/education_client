@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import Footer from "../GlobalComponents/Footer";
-import Navbar from "../GlobalComponents/Navbar";
+import { Navbar, Footer } from "../../Components";
 import { BsPerson } from "react-icons/bs";
 // @ts-ignore
 import courses_bg from "../../Images/Banners/others_bg.jpg";

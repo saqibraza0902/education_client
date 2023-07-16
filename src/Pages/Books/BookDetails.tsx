@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../GlobalComponents/Footer";
-import Navbar from "../GlobalComponents/Navbar";
+import { Navbar, Footer } from "../../Components";
 // @ts-ignore
 import courses_bg from "../../Images/Banners/others_bg.jpg";
 import { useLocation } from "react-router-dom";

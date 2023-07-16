@@ -5,7 +5,7 @@ interface Props {
   ques: string;
   ans: string;
 }
-const Accordion = ({ ques, ans }: Props) => {
+export const Accordion = ({ ques, ans }: Props) => {
   const [show, setShow] = useState(false);
   return (
     <div>
@@ -53,5 +53,3 @@ const Accordion = ({ ques, ans }: Props) => {
     </div>
   );
 };
-
-export default Accordion;

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import Navbar from "../GlobalComponents/Navbar";
-import Footer from "../GlobalComponents/Footer";
+import { Navbar, Footer, Accordion } from "../../Components";
 // @ts-ignore
 import courses_bg from "../../Images/Banners/others_bg.jpg";
-import Accordion from "./Accordion";
 import api from "../../AxiosInstance/api";
 const QuestionsArray = [
   {

@@ -1,15 +1,16 @@
 import React from "react";
-import Home from "./Components/HomeComponents/Home";
+import Home from "./Pages/HomeComponents/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Course from "./Components/Courses/Course";
-import Shop from "./Components/Books/Shop";
-import Events from "./Components/Events/Events";
-import Aboutus from "./Components/Aboutus";
-import Contactus from "./Components/Contactus";
-import FAQs from "./Components/FAQS/FAQs";
-import BookDetails from "./Components/Books/BookDetails";
-import EventDetails from "./Components/Events/EventDetails";
-import CoursesDetails from "./Components/Courses/CoursesDetails";
+import Course from "./Pages/Courses/Course";
+import Shop from "./Pages/Books/Shop";
+import Events from "./Pages/Events/Events";
+import Aboutus from "./Pages/Aboutus";
+import Contactus from "./Pages/Contactus";
+import FAQs from "./Pages/FAQS/FAQs";
+import BookDetails from "./Pages/Books/BookDetails";
+import EventDetails from "./Pages/Events/EventDetails";
+import CoursesDetails from "./Pages/Courses/CoursesDetails";
+import Cart from "./Pages/Cart";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/about" element={<Aboutus />} />
         <Route path="/contact" element={<Contactus />} />
         <Route path="/faqs" element={<FAQs />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </Router>
   );

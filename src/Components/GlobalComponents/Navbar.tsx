@@ -10,9 +10,11 @@ import { BsCart2 } from "react-icons/bs";
 import logo from "../../Images/Logo/logo.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { CartDrawer } from "./CartDrawer";
 
-const Navbar = () => {
+export const Navbar = () => {
   const [show, setShow] = useState<any>(false);
+
   const cart = useSelector((state: any) => state.cart.cart);
   console.log(cart);
   useEffect(() => {
@@ -34,14 +36,16 @@ const Navbar = () => {
       window.removeEventListener("scroll", scrollBar);
     };
   }, []);
-
-  // Save the current show state to local storage whenever it changes
   useEffect(() => {
     return localStorage.setItem("showNavbar", show);
   }, [show]);
-
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(!open);
+  };
   return (
     <div className="relative">
+      {<CartDrawer close={handleClose} open={open} />}
       <nav className="text-white bg-[#002147] flex flex-col gap-2 md:flex-row justify-between py-2 px-10">
         <div className="text-[12px] flex justify-center gap-5">
           <div className="flex items-center gap-2">
@@ -81,7 +85,7 @@ const Navbar = () => {
         </div>
       </nav>
       <nav
-        className={`z-50 hidden md:flex items-center justify-between px-10 py-4 transition-all duration-300
+        className={`z-30 hidden md:flex items-center justify-between px-10 py-4 transition-all duration-300
     ${
       show === true
         ? "bg-white top-[-8px] fixed w-full shadow translate-y-2"
@@ -135,7 +139,7 @@ const Navbar = () => {
             </li>
           </ul>
           <div className="relative">
-            <i>
+            <i className="cursor-pointer" onClick={() => setOpen(!open)}>
               <BsCart2 />
             </i>
             <span className="absolute top-[-10px] left-[-10px] text-[10px] text-white  bg-red-600 px-1 rounded-full">
@@ -167,5 +171,3 @@ const Navbar = () => {
     </div>
   );
 };
-
-export default Navbar;

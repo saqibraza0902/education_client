@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../GlobalComponents/Navbar";
+import { Navbar, Footer } from "../../Components";
 // @ts-ignore
 import bg1 from "../../Images/Banners/slider_bg_001.jpg";
 // @ts-ignore
@@ -9,7 +9,6 @@ import shop_bg from "../../Images/Banners/shop_bg.jpg";
 
 import Courses from "./Courses";
 import About from "./About";
-import Footer from "../GlobalComponents/Footer";
 import OurShop from "./OurShop";
 import StudentReviews from "./StudentReviews";
 import Advisers from "./Advisers";
