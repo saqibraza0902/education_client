@@ -11,12 +11,16 @@ import BookDetails from "./Pages/Books/BookDetails";
 import EventDetails from "./Pages/Events/EventDetails";
 import CoursesDetails from "./Pages/Courses/CoursesDetails";
 import Cart from "./Pages/Cart";
+import Login from "./Pages/Auth/Login";
+import Signup from "./Pages/Auth/SignUp";
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<Home />} />
         <Route path="/courses" element={<Course />} />
         <Route path="/courses/:_id" element={<CoursesDetails />} />
         <Route path="/shop" element={<Shop />} />
