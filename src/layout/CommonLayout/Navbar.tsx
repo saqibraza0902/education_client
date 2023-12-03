@@ -11,7 +11,7 @@ import { CartDrawer } from "./CardDrawer";
 import { NavArray } from "@/mock";
 import { useRouter } from "next/navigation";
 import ImageWithFallback from "@/utils/Imgwithfallback";
-import { useAppSelector } from "@/hooks";
+import { useAppSelector } from "@/hooks/hooks";
 
 export const Navbar = () => {
   const [show, setShow] = useState<any>(false);

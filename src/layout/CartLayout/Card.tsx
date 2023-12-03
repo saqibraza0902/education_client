@@ -1,6 +1,6 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { Decrement, DeleteProduct, Increament } from "@/store/slices/Cart";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch } from "@/hooks/hooks";
 import { BsTrash } from "react-icons/bs";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 interface Product {

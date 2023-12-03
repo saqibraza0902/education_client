@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import api from "@/instance/api";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { URLS } from "@/utils/URLS";
