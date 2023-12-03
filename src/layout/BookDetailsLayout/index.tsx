@@ -1,6 +1,6 @@
-import { useAppDispatch } from "@/hooks";
 import api from "@/instance/api";
 import ImageWithFallback from "@/utils/Imgwithfallback";
+import { useAppDispatch } from "@/hooks";
 import { usePathname, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { RatingStar } from "rating-star";
