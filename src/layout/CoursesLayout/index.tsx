@@ -12,7 +12,7 @@ const CoursesLayout = () => {
   useEffect(() => {
     const getCourse = async () => {
       try {
-        const { data } = await api.get("/courses/get-course");
+        const { data } = await api.get("/courses/data");
         setAllCourses(data.course);
       } catch (error) {
         console.log(error);

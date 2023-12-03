@@ -18,6 +18,7 @@ const BookDetailsLayout = () => {
       try {
         const res = await api.get(`/book/get-book?id=${slug}`);
         setBook(res.data.book);
+
         console.log(res.data.books);
       } catch (error) {
         console.log(error);

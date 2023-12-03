@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AiOutlineDribbble,
   AiOutlineSearch,
@@ -8,11 +8,44 @@ import { TiSocialGooglePlus, TiSocialPinterest } from "react-icons/ti";
 import { FaFacebookF } from "react-icons/fa";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { Categories } from "@/mock";
+import api from "@/instance/api";
+import { useParams } from "next/navigation";
+
+interface IVideo {
+  _id: string;
+  title: string;
+  url: string;
+  duration: number;
+}
+interface ICourse {
+  _id: string;
+  courseTitle: string;
+  category: string;
+  description: string;
+  advisor: any;
+  time: string;
+  lectures: string;
+  videos: IVideo[];
+  seats: number;
+  image: string;
+}
 const CoursesDetailLayout = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-
+  const [course, setCourse] = useState<ICourse>();
+  const { slug } = useParams();
+  useEffect(() => {
+    const get_data = async () => {
+      try {
+        const { data } = await api.get(`/courses/course/${slug}`);
+        setCourse(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    get_data();
+  }, [slug]);
   return (
     <div>
       <section
@@ -31,10 +64,10 @@ const CoursesDetailLayout = () => {
       <section className="h-max px-10 py-20 flex flex-col lg:flex-row items-center lg:items-start gap-10 bg-[#f6f6f6]">
         <div className="flex flex-col gap-10 w-full lg:w-2/3">
           <div className="bg-white h-max flex flex-col   p-3 lg:p-10">
-            {/* <ImageWithFallback src={image} alt="Detail pic" /> */}
+            <ImageWithFallback src={course?.image} alt="Detail pic" />
             <div className="border-b mt-3">
               <h1 className="text-[#002147] transition-all duration-500 cursor-pointer w-max hover:text-[#fdc800] font-bold text-xl">
-                {"courseTitle"}
+                {course?.courseTitle}
               </h1>
             </div>
             <ul
@@ -108,7 +141,7 @@ const CoursesDetailLayout = () => {
               >
                 <div className="border-b">
                   <p className="text-[#777777] leading-7 text-justify font-normal !font-sans ">
-                    {"description"}
+                    {course?.description}
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 border-b py-4">
@@ -116,12 +149,14 @@ const CoursesDetailLayout = () => {
                     <div>
                       <span className="text-[#8a8a8a]">Advisor : </span>
                       <span className="text-[#002147] ml-1">
-                        {"advisor.name"}
+                        {course?.advisor.name}
                       </span>
                     </div>
                     <div>
                       <span className="text-[#8a8a8a]">Category : </span>
-                      <span className="text-[#002147] ml-1">{"category"}</span>
+                      <span className="text-[#002147] ml-1">
+                        {course?.category}
+                      </span>
                     </div>
                   </div>
                   <div className="flex justify-between">
@@ -131,7 +166,9 @@ const CoursesDetailLayout = () => {
                     </div>
                     <div className="text-start">
                       <span className="text-[#8a8a8a]">Lectures : </span>
-                      <span className="text-[#002147] ml-1">{"lectures"}</span>
+                      <span className="text-[#002147] ml-1">
+                        {course?.lectures}
+                      </span>
                     </div>
                   </div>
                   <div className="flex justify-between">
@@ -154,13 +191,13 @@ const CoursesDetailLayout = () => {
                   you a complete account of the system and expoune.
                 </p>
                 <div className="text-[#8a8a8a]">
-                  {/* {video.map((item: any, index: number) => (
+                  {course?.videos?.map((item: any, index: number) => (
                     <div key={index} className="flex justify-between">
                       <span>Lecture : {index + 1}</span>
                       <span>Time : {item.duration}</span>
                       <span>Title : {item.title}</span>
                     </div>
-                  ))} */}
+                  ))}
                 </div>
               </div>
               <div
@@ -169,20 +206,20 @@ const CoursesDetailLayout = () => {
                 role="tabpanel"
                 aria-labelledby="tabs-profile-tab"
               >
-                {/* <div className="flex flex-col md:flex-row w-full pt-2">
-                  <ImageWithFallback src={advisor.image} alt="" />
+                <div className="flex flex-col md:flex-row w-full pt-2">
+                  <ImageWithFallback src={course?.advisor.image} alt="" />
                   <div className="flex flex-col gap-2 pt-4 md:pl-4">
                     <span className="text-[#444444] text-xl font-semibold">
-                      {advisor.name}
+                      {course?.advisor.name}
                     </span>
                     <span className="text-[#777777] text-xs font-medium">
-                      {advisor.role}
+                      {course?.advisor.role}
                     </span>
                     <p className="text-justify text-[#8a8a8a] text-sm">
-                      {advisor.vision}
+                      {course?.advisor.vision}
                     </p>
                   </div>
-                </div> */}
+                </div>
               </div>
               <div
                 className="tab-pane fade"
