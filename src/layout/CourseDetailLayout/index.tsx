@@ -10,6 +10,8 @@ import ImageWithFallback from "@/utils/Imgwithfallback";
 import { Categories } from "@/mock";
 import api from "@/instance/api";
 import { useParams } from "next/navigation";
+import { TimeConvertor } from "@/utils/TimeConvertor";
+import BookingForm from "@/ui/Components/BookingForm";
 
 interface IVideo {
   _id: string;
@@ -29,11 +31,35 @@ interface ICourse {
   seats: number;
   image: string;
 }
+
+const Tabs = [
+  {
+    title: "Overview",
+    id: 1,
+  },
+  {
+    title: "Curriculum",
+    id: 2,
+  },
+  {
+    title: "Advisor",
+    id: 3,
+  },
+  {
+    title: "Reviews",
+    id: 4,
+  },
+];
 const CoursesDetailLayout = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [course, setCourse] = useState<ICourse>();
+  const [activeTab, setActiveTab] = useState(1);
+
+  const handleTabClick = (tabNumber: number) => {
+    setActiveTab(tabNumber);
+  };
   const { slug } = useParams();
   useEffect(() => {
     const get_data = async () => {
@@ -65,147 +91,85 @@ const CoursesDetailLayout = () => {
         <div className="flex flex-col gap-10 w-full lg:w-2/3">
           <div className="bg-white h-max flex flex-col   p-3 lg:p-10">
             <ImageWithFallback src={course?.image} alt="Detail pic" />
-            <div className="border-b mt-3">
+            <div className="border-b py-3">
               <h1 className="text-[#002147] transition-all duration-500 cursor-pointer w-max hover:text-[#fdc800] font-bold text-xl">
                 {course?.courseTitle}
               </h1>
             </div>
-            <ul
-              className="nav nav-tabs flex md:flex-col flex-row !border-none gap-3 md:gap-5  !m-0 py-2"
-              id="tabs-tab"
-              role="tablist"
-            >
-              <li className="nav-item p-0 m-0" role="presentation">
-                <a
-                  href="#tabs-home"
-                  className="nav-link active p-0"
-                  id="tabs-home-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#tabs-home"
-                  role="tab"
-                  aria-controls="tabs-home"
-                  aria-selected="true"
+            <div className="flex gap-x-7 py-3">
+              {Tabs.map((tab) => (
+                <span
+                  onClick={() => handleTabClick(tab.id)}
+                  className="cursor-pointer"
+                  key={tab.id}
                 >
-                  Overview
-                </a>
-              </li>
-              <li className="nav-item p-0 m-0" role="presentation">
-                <a
-                  href="#tabs-profile"
-                  className="nav-link p-0"
-                  id="tabs-profile-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#tabs-profile"
-                  role="tab"
-                  aria-controls="tabs-profile"
-                  aria-selected="false"
-                >
-                  Curriculum
-                </a>
-              </li>
-              <li className="nav-item p-0 m-0" role="presentation">
-                <a
-                  href="#tabs-profile"
-                  className="nav-link p-0"
-                  id="tabs-messages-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#tabs-messages"
-                  role="tab"
-                  aria-controls="tabs-messages"
-                  aria-selected="false"
-                >
-                  Advisor
-                </a>
-              </li>
-              <li className="nav-item p-0 m-0" role="presentation">
-                <a
-                  href="#tabs-profile"
-                  className="nav-link p-0"
-                  id="tabs-contact-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#tabs-contact"
-                  role="tab"
-                  aria-controls="tabs-contact"
-                  aria-selected="false"
-                >
-                  Reviews
-                </a>
-              </li>
-            </ul>
-            <div className="tab-content" id="tabs-tabContent">
-              <div
-                className="tab-pane fade show active"
-                id="tabs-home"
-                role="tabpanel"
-                aria-labelledby="tabs-home-tab"
-              >
-                <div className="border-b">
-                  <p className="text-[#777777] leading-7 text-justify font-normal !font-sans ">
-                    {course?.description}
+                  {tab.title}
+                </span>
+              ))}
+            </div>
+            <div>
+              {activeTab === 1 && (
+                <div>
+                  <div className="border-b pb-3">
+                    <p className="text-[#777777] leading-7 text-justify font-normal !font-sans ">
+                      {course?.description}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-3 border-b py-4">
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="text-[#8a8a8a]">Advisor : </span>
+                        <span className="text-[#002147] ml-1">
+                          {course?.advisor.name}
+                        </span>
+                      </div>
+                      <div>
+                        <span className="text-[#8a8a8a]">Category : </span>
+                        <span className="text-[#002147] ml-1">
+                          {course?.category}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="text-[#8a8a8a]">Students : </span>
+                        <span className="text-[#002147] ml-1">15</span>
+                      </div>
+                      <div className="text-start">
+                        <span className="text-[#8a8a8a]">Lectures : </span>
+                        <span className="text-[#002147] ml-1">
+                          {course?.lectures}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between">
+                      <div>
+                        <span className="text-[#8a8a8a]">Time : </span>
+                        <span className="text-[#002147] ml-1">40 Hours</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {activeTab === 2 && (
+                <div>
+                  <p className="text-[#8a8a8a] text-sm">
+                    But I must explain to you how all this mistaken idea of
+                    denouncing pleasure and praising pain was born and I will
+                    give you a complete account of the system and expoune.
                   </p>
-                </div>
-                <div className="flex flex-col gap-3 border-b py-4">
-                  <div className="flex justify-between">
-                    <div>
-                      <span className="text-[#8a8a8a]">Advisor : </span>
-                      <span className="text-[#002147] ml-1">
-                        {course?.advisor.name}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-[#8a8a8a]">Category : </span>
-                      <span className="text-[#002147] ml-1">
-                        {course?.category}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between">
-                    <div>
-                      <span className="text-[#8a8a8a]">Students : </span>
-                      <span className="text-[#002147] ml-1">15</span>
-                    </div>
-                    <div className="text-start">
-                      <span className="text-[#8a8a8a]">Lectures : </span>
-                      <span className="text-[#002147] ml-1">
-                        {course?.lectures}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between">
-                    <div>
-                      <span className="text-[#8a8a8a]">Time : </span>
-                      <span className="text-[#002147] ml-1">40 Hours</span>
-                    </div>
+                  <div className="text-[#8a8a8a]">
+                    {course?.videos?.map((item: any, index: number) => (
+                      <div key={index} className="flex justify-between">
+                        <span>Lecture : {index + 1}</span>
+                        <span>Time : {TimeConvertor(item.duration)}</span>
+                        <span>Title : {item.title}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-              <div
-                className="tab-pane fade"
-                id="tabs-profile"
-                role="tabpanel"
-                aria-labelledby="tabs-profile-tab"
-              >
-                <p className="text-[#8a8a8a] text-sm">
-                  But I must explain to you how all this mistaken idea of
-                  denouncing pleasure and praising pain was born and I will give
-                  you a complete account of the system and expoune.
-                </p>
-                <div className="text-[#8a8a8a]">
-                  {course?.videos?.map((item: any, index: number) => (
-                    <div key={index} className="flex justify-between">
-                      <span>Lecture : {index + 1}</span>
-                      <span>Time : {item.duration}</span>
-                      <span>Title : {item.title}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div
-                className="tab-pane fade w-full"
-                id="tabs-messages"
-                role="tabpanel"
-                aria-labelledby="tabs-profile-tab"
-              >
+              )}
+              {activeTab === 3 && (
                 <div className="flex flex-col md:flex-row w-full pt-2">
                   <ImageWithFallback src={course?.advisor.image} alt="" />
                   <div className="flex flex-col gap-2 pt-4 md:pl-4">
@@ -220,18 +184,11 @@ const CoursesDetailLayout = () => {
                     </p>
                   </div>
                 </div>
-              </div>
-              <div
-                className="tab-pane fade"
-                id="tabs-contact"
-                role="tabpanel"
-                aria-labelledby="tabs-contact-tab"
-              >
-                Reviews Content
-              </div>
+              )}
+              {activeTab === 4 && <div>Reviews Content</div>}
             </div>
 
-            <div className="flex items-center justify-end gap-2">
+            <div className="flex items-center justify-end pt-2 gap-2">
               <span className="text-[#002147] font-bold text-lg">
                 Share Now
               </span>
@@ -254,72 +211,6 @@ const CoursesDetailLayout = () => {
                 </i>
               </span>
             </div>
-          </div>
-          <div className="bg-white h-max p-4 lg:p-10">
-            <div className="flex flex-col justify-center items-center">
-              <h4 className="text-center text-[#002147] font-bold text-3xl">
-                Book Your Seat
-              </h4>
-              <p className="text-center w-full lg:w-2/3 text-[#8a8a8a] text-sm font-normal">
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-                accusantium doloremque laudantium totam
-              </p>
-            </div>
-            <form className="flex flex-col items-center gap-3">
-              <div className="flex flex-col w-full lg:flex-row gap-3 lg:gap-5">
-                <div className="input w-full">
-                  <input
-                    type="text"
-                    className="w-full h-12 pl-4 focus:border-current focus:ring-0 border-none"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Name :"
-                  />
-                </div>
-                <div className="input w-full">
-                  <input
-                    type="email"
-                    className="w-full h-12 pl-4 focus:border-current focus:ring-0 border-none"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email :"
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col w-full lg:flex-row gap-3 lg:gap-5">
-                <div className="input w-full">
-                  <input
-                    type="number"
-                    className="w-full h-12 pl-4 focus:border-current focus:ring-0 border-none"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Roll No :"
-                  />
-                </div>
-                <div className="input w-full">
-                  <input
-                    type="text"
-                    className="w-full h-12 pl-4 focus:border-current focus:ring-0 border-none"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Department :"
-                  />
-                </div>
-              </div>
-              <textarea
-                rows={5}
-                className="w-full pl-4 focus:border-current focus:ring-0 focus:!outline-none !outline-none"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Message :"
-              ></textarea>
-              <button
-                type="submit"
-                className="uppercase px-20 font-semibold py-3 bg-[#002147] text-white hover:!text-[#002147] transition-all duration-500 hover:bg-[#fdc800] w-max"
-              >
-                Book Now
-              </button>
-            </form>
           </div>
         </div>
         <div className="w-full md:w-2/3 lg:w-1/3 flex justify-end">

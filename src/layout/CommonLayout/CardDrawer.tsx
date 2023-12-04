@@ -3,7 +3,7 @@ import { MdClose } from "react-icons/md";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-import { Decrement, DeleteProduct, Increament } from "@/store/slices/Cart";
+import { Decrement, DeleteProduct, Increament } from "@/store/slices/cart";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { useRouter } from "next/navigation";
 import { URLS } from "@/utils/URLS";
@@ -28,11 +28,11 @@ export const CartDrawer = ({ open, close }: Props) => {
   };
   return (
     <div
-      className={`fixed top-0 z-50 right-0 h-screen w-64 bg-[#002147] transition-transform duration-300 transform ${
+      className={`fixed top-0 z-50 right-0 h-screen w-72 bg-[#002147] transition-transform duration-300 transform ${
         open ? "translate-x-0" : "translate-x-full"
       } ${cart.length > 1 ? "overflow-y-scroll" : ""}`}
     >
-      <div className="p-4 flex items-center justify-between">
+      <div className="p-4 w-full flex items-center justify-between">
         <ImageWithFallback src="/assets/Logo/logo_2.png" alt="Logo" />
         <MdClose
           className="cursor-pointer"
@@ -46,8 +46,12 @@ export const CartDrawer = ({ open, close }: Props) => {
           <div className="flex flex-col gap-10 p-4">
             {cart.map((item, i) => (
               <div key={i}>
-                <div className="relative">
-                  <ImageWithFallback src={item.image} alt="product" />
+                <div className="relative w-full">
+                  <ImageWithFallback
+                    src={item.image}
+                    className="w-full"
+                    alt="product"
+                  />
                   <i className="absolute top-2 right-2 cursor-pointer">
                     <BsTrash onClick={() => handleDelete(item._id)} />
                   </i>
@@ -59,13 +63,13 @@ export const CartDrawer = ({ open, close }: Props) => {
                     <div className="flex items-center gap-2">
                       <i
                         onClick={() => handleSub(item._id)}
-                        className="px-2 bg-slate-400 rounded-lg cursor-pointer"
+                        className="p-2 text-black bg-yellow-300 rounded-full cursor-pointer"
                       >
                         <AiOutlineMinus />
                       </i>
                       <span>{item.qnty}</span>
                       <i
-                        className="px-2 bg-slate-400 rounded-lg cursor-pointer"
+                        className="p-2 text-black bg-yellow-300 rounded-full cursor-pointer"
                         onClick={() => handleAdd(item._id)}
                       >
                         <AiOutlinePlus />
@@ -83,7 +87,7 @@ export const CartDrawer = ({ open, close }: Props) => {
             <span>${total}</span>
           </div>
           <p
-            className="text-white flex justify-center"
+            className="text-white cursor-pointer flex justify-center"
             onClick={() => router.push(URLS.CART)}
           >
             See cart details

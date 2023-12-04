@@ -1,5 +1,5 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { Decrement, DeleteProduct, Increament } from "@/store/slices/Cart";
+import { Decrement, DeleteProduct, Increament } from "@/store/slices/cart";
 import { useAppDispatch } from "@/hooks/hooks";
 import { BsTrash } from "react-icons/bs";
 import ImageWithFallback from "@/utils/Imgwithfallback";
@@ -36,9 +36,9 @@ export const CartComponent = ({ item }: Props) => {
     dispatch(DeleteProduct(id));
   };
   return (
-    <div className="bg-white flex flex-col p-2">
+    <div className="bg-white w-72 flex flex-col  p-4">
       <div className="flex justify-center">
-        <ImageWithFallback src={item.image} alt="book" />
+        <ImageWithFallback src={item.image} className="w-full" alt="book" />
       </div>
       <div className="flex !justify-between items-center py-3">
         <span className="text-base font-semibold transition-all duration-500 cursor-pointer text-[#002147] hover:text-[#fdc800]">
@@ -55,13 +55,13 @@ export const CartComponent = ({ item }: Props) => {
         <div className="flex items-center gap-4">
           <i
             onClick={() => handleSub(item._id)}
-            className="p-2 bg-[#fdc800] rounded-lg cursor-pointer"
+            className="p-2 bg-[#fdc800] rounded-full cursor-pointer"
           >
             <AiOutlineMinus />
           </i>
           <span>{item.qnty}</span>
           <i
-            className="p-2 bg-[#fdc800] rounded-lg cursor-pointer"
+            className="p-2 bg-[#fdc800] rounded-full cursor-pointer"
             onClick={() => handleAdd(item._id)}
           >
             <AiOutlinePlus />
@@ -77,9 +77,6 @@ export const CartComponent = ({ item }: Props) => {
           </i>
         </div>
       </div>
-      <p className=" pt-4 text-[#002147] hover:text-[#fdc800] transition-all duration-500 w--min cursor-pointer text-sm font-medium">
-        View details
-      </p>
     </div>
   );
 };

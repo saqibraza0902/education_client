@@ -14,7 +14,7 @@ const EventsLayout = () => {
   useEffect(() => {
     const getEvents = async () => {
       try {
-        const { data } = await api.get(`/events/get-events?page=${pageNumber}`);
+        const { data } = await api.get(`/events/data?page=${pageNumber}`);
         setTotalNumOfPages(data.totalPage);
         setEventsList(data.events);
       } catch (error) {
@@ -45,7 +45,6 @@ const EventsLayout = () => {
         <div className="grid mt-5 grid-cols-1 md:grid-cols-2 justify-items-center lg:grid-cols-3 gap-4">
           {events_list?.map((item: any, index: number) => (
             <div
-              onClick={() => router.push(`${URLS.EVENTS}/${item._id}`)}
               className="border-[#ffffff] rounded border-[1px] p-4 "
               key={index}
             >
@@ -57,7 +56,10 @@ const EventsLayout = () => {
                   <span className="text-xs">{item.month}</span>
                 </div>
                 <div className="grid ml-5">
-                  <p className="text-white cursor-pointer font-semibold text-lg hover:!text-[#fdc800] transition duration-500">
+                  <p
+                    onClick={() => router.push(`${URLS.EVENTS}/${item._id}`)}
+                    className="text-white cursor-pointer font-semibold text-lg hover:!text-[#fdc800] transition duration-500"
+                  >
                     {item.eventTitle}
                   </p>
                   <span className="flex items-center gap-3 text-[#8a8a8a] text-sm">

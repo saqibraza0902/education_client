@@ -1,9 +1,28 @@
 import { useAppSelector } from "@/hooks/hooks";
 import React from "react";
 import { CartComponent } from "./Card";
+import api from "@/instance/api";
+import { useRouter } from "next/navigation";
 
 const CartLayout = () => {
   const { cart } = useAppSelector((state) => state.cart);
+  const { user } = useAppSelector((state) => state.auth);
+  const router = useRouter();
+  console.log(cart);
+  const checkout = async () => {
+    const postdata = {
+      cart,
+      id: user?.id,
+    };
+    try {
+      const { data } = await api.post("/payment/pay", postdata);
+      if (data.url) {
+        router.push(data.url);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <section
@@ -25,11 +44,18 @@ const CartLayout = () => {
             <CartComponent key={index} item={item} />
           ))}
         </div>
-        <div className=" flex justify-center mt-10">
-          <button className="px-4 py-2 bg-[#fdc800] font-medium ">
-            Proceed to Checkout
-          </button>
-        </div>
+        {cart.length > 0 ? (
+          <div className=" flex justify-center mt-10">
+            <button
+              onClick={() => checkout()}
+              className="px-4 py-2 bg-[#fdc800] font-medium "
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        ) : (
+          <p className="text-center">Your cart is empty</p>
+        )}
       </section>
     </div>
   );

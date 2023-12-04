@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { usePathname, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { RatingStar } from "rating-star";
-import { AddCart } from "@/store/slices/Cart";
+import { AddCart } from "@/store/slices/cart";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 const BookDetailsLayout = () => {

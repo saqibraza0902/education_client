@@ -1,16 +1,45 @@
+import Input from "@/ui/form/Input";
 import { URLS } from "@/utils/URLS";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/ui/form/form";
+import api from "@/instance/api";
+import { loginUser } from "@/store/slices/auth";
+import { useAppDispatch } from "@/hooks/hooks";
 
+const LoginSchema = z.object({
+  email: z.string().min(1, "Email is required.").email("Invalid email."),
+  password: z.string().min(1, "Password is required"),
+});
 const LoginLayout = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const router = useRouter();
-  const handleLogin = (event: React.FormEvent) => {
-    event.preventDefault();
-    // Add your login logic here
-    console.log("Username:", username);
-    console.log("Password:", password);
+  const dispatch = useAppDispatch();
+
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const handleLogin = async (values: z.infer<typeof LoginSchema>) => {
+    try {
+      const { data } = await api.post("/user/login", values);
+      dispatch(loginUser({ token: data.token, user: data.user }));
+      form.reset();
+      router.push(URLS.HOME);
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="bg-[#002147] h-screen flex items-center justify-center">
@@ -18,52 +47,57 @@ const LoginLayout = () => {
         <h1 className="text-center text-2xl font-bold mb-6">
           Login to Sikkha Education
         </h1>
-        <form onSubmit={handleLogin}>
-          <label className="block mb-2" htmlFor="username">
-            Username:
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-3 py-2 border rounded mb-4"
-            required
-          />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleLogin)}>
+            <label>Username:</label>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <label className="block mb-2" htmlFor="password">
-            Password:
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border rounded mb-6"
-            required
-            autoComplete="false"
-          />
+            <label>Password:</label>
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <button
-            type="submit"
-            className="w-full bg-[#002147] border-[#002147] border-[1px] text-[#fdc800] py-2 px-4 rounded cursor-pointer hover:bg-[#255caf]
+            <button
+              type="submit"
+              className="w-full mt-5 bg-[#002147] text-[#fdc800] py-2 px-4 rounded cursor-pointer hover:bg-[#255caf]
            hover:text-[#fff] transition-all duration-500"
-          >
-            Login
-          </button>
-          <p className="pt-2 text-sm text-black">
-            Dont have an account? Create new account{" "}
-            <span className="underline cursor-pointer ">
-              <span
-                className="text-black text-sm no-underline"
-                onClick={() => router.push(URLS.SIGNUP)}
-              >
-                {" "}
-                here
+            >
+              Login
+            </button>
+            <p className="pt-2 text-sm text-black">
+              Dont have an account? Create new account{" "}
+              <span className="underline cursor-pointer ">
+                <span
+                  className="text-black text-sm no-underline"
+                  onClick={() => router.push(URLS.SIGNUP)}
+                >
+                  {" "}
+                  here
+                </span>
               </span>
-            </span>
-          </p>
-        </form>
+            </p>
+          </form>
+        </Form>
       </div>
     </div>
   );
