@@ -1,8 +1,11 @@
 import api from "@/instance/api";
+import Hero from "@/ui/Components/Hero";
 import { URLS } from "@/utils/URLS";
+import { handleApiError } from "@/utils/handleApiErrors";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BsClock } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const EventsLayout = () => {
   const [pageNumber, setPageNumber] = useState(0);
@@ -18,26 +21,15 @@ const EventsLayout = () => {
         setTotalNumOfPages(data.totalPage);
         setEventsList(data.events);
       } catch (error) {
-        console.log(error);
+        const err = handleApiError(error);
+        toast.error(err);
       }
     };
     getEvents();
   }, [pageNumber]);
   return (
     <div>
-      <section
-        className="h-[50vh] lg:h-[90vh]"
-        style={{
-          backgroundImage: `url("/assets/Banners/others_bg.jpg")`,
-          backgroundPosition: "center center ",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="flex justify-center items-center h-full">
-          <h1 className="text-white text-3xl lg:text-6xl ">Our Events</h1>
-        </div>
-      </section>
+      <Hero page="Our Events" />
       <section
         className="h-max py-20 px-10"
         style={{ backgroundImage: `url("/assets/Banners/courses_bg.png")` }}

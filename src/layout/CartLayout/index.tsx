@@ -1,28 +1,49 @@
-import { useAppSelector } from "@/hooks/hooks";
-import React from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
+import React, { useEffect } from "react";
 import { CartComponent } from "./Card";
 import api from "@/instance/api";
-import { useRouter } from "next/navigation";
-
+import { useRouter, useSearchParams } from "next/navigation";
+import { handleApiError } from "@/utils/handleApiErrors";
+import { toast } from "react-toastify";
+import { ClearCart } from "@/store/slices/cart";
 const CartLayout = () => {
   const { cart } = useAppSelector((state) => state.cart);
   const { user } = useAppSelector((state) => state.auth);
   const router = useRouter();
-  console.log(cart);
+  const dispatch = useAppDispatch();
+  const params = useSearchParams();
+  const session_id = params.get("session_id");
+  const postdata = {
+    cart,
+    id: user?.id,
+  };
   const checkout = async () => {
-    const postdata = {
-      cart,
-      id: user?.id,
-    };
     try {
-      const { data } = await api.post("/payment/pay", postdata);
+      const { data } = await api.post(`/payment/pay`, postdata);
       if (data.url) {
         router.push(data.url);
       }
     } catch (error) {
-      console.log(error);
+      const err = handleApiError(error);
+      toast.error(err);
     }
   };
+  useEffect(() => {
+    const handle = async () => {
+      try {
+        const { data } = await api.get(`/payment/verify/${session_id}`);
+        if (data) {
+          dispatch(ClearCart());
+        }
+      } catch (error) {
+        const err = handleApiError(error);
+        toast.error(err);
+      }
+    };
+    if (session_id) {
+      handle();
+    }
+  }, [session_id, dispatch]);
   return (
     <div>
       <section

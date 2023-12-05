@@ -4,6 +4,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { RatingStar } from "rating-star";
 import { URLS } from "@/utils/URLS";
+import { handleApiError } from "@/utils/handleApiErrors";
+import { toast } from "react-toastify";
+import Hero from "@/ui/Components/Hero";
 
 const ShopLayout = () => {
   const [totalNumOfPages, setTotalNumOfPages] = useState(0);
@@ -19,7 +22,8 @@ const ShopLayout = () => {
         setTotalNumOfPages(data.totalPage);
         setShopBooks(data.book);
       } catch (error) {
-        console.log(error);
+        const err = handleApiError(error);
+        toast.error(err);
       }
     };
     getBooks();
@@ -29,19 +33,7 @@ const ShopLayout = () => {
   };
   return (
     <div>
-      <section
-        className="h-[50vh] lg:h-[90vh]"
-        style={{
-          backgroundImage: `url("/assets/Banners/others_bg.jpg")`,
-          backgroundPosition: "center center ",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="flex justify-center items-center h-full">
-          <h1 className="text-white text-3xl lg:text-6xl ">Our Shop</h1>
-        </div>
-      </section>
+      <Hero page="Our Shop" />
       <section className="bg-[#f6f6f6] h-max py-20 px-10">
         <div>
           <div className="grid mt-5 grid-cols-1 justify-items-center gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

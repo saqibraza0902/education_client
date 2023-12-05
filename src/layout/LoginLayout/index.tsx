@@ -15,6 +15,8 @@ import {
 import api from "@/instance/api";
 import { loginUser } from "@/store/slices/auth";
 import { useAppDispatch } from "@/hooks/hooks";
+import { toast } from "react-toastify";
+import { handleApiError } from "@/utils/handleApiErrors";
 
 const LoginSchema = z.object({
   email: z.string().min(1, "Email is required.").email("Invalid email."),
@@ -38,7 +40,8 @@ const LoginLayout = () => {
       form.reset();
       router.push(URLS.HOME);
     } catch (error) {
-      console.log(error);
+      const err = handleApiError(error);
+      toast.error(err);
     }
   };
   return (

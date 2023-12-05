@@ -3,10 +3,12 @@ import Input from "@/ui/form/Input";
 import { Form, FormField, FormItem } from "@/ui/form/form";
 import { FormControl, FormMessage } from "@/ui/form/form";
 import { URLS } from "@/utils/URLS";
+import { handleApiError } from "@/utils/handleApiErrors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import * as z from "zod";
 const profileSchema = z.object({
   name: z.string().min(1, "Name is required."),
@@ -37,7 +39,8 @@ const SignupLayout = () => {
       console.log(data);
       form.reset();
     } catch (error) {
-      console.log(error);
+      const err = handleApiError(error);
+      toast.error(err);
     }
   };
 

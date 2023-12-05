@@ -1,22 +1,11 @@
+import Hero from "@/ui/Components/Hero";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import React from "react";
 
 const AboutLayout = () => {
   return (
     <div>
-      <section
-        className="h-[50vh] lg:h-[90vh]"
-        style={{
-          backgroundImage: `url("/assets/Banners/others_bg.jpg")`,
-          backgroundPosition: "center center ",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="flex justify-center items-center h-full">
-          <h1 className="text-white text-3xl lg:text-6xl ">About Us</h1>
-        </div>
-      </section>
+      <Hero page="About Us" />
       <section className="py-20 px-10 flex flex-col lg:flex-row gap-5">
         <div className="lg:w-7/12">
           <ImageWithFallback

@@ -1,19 +1,16 @@
 import api from "@/instance/api";
-import { Categories } from "@/mock";
 import BookingForm from "@/ui/Components/BookingForm";
+import Hero from "@/ui/Components/Hero";
 import SideContent from "@/ui/Components/SideContent";
 import ImageWithFallback from "@/utils/Imgwithfallback";
+import { handleApiError } from "@/utils/handleApiErrors";
 import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import {
-  AiOutlineDribbble,
-  AiOutlineSearch,
-  AiOutlineTwitter,
-} from "react-icons/ai";
+import { AiOutlineDribbble, AiOutlineTwitter } from "react-icons/ai";
 import { BsClock } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa";
 import { TiSocialGooglePlus, TiSocialPinterest } from "react-icons/ti";
-
+import { toast } from "react-toastify";
 interface IEvent {
   eventTitle: string;
   speaker: string;
@@ -34,26 +31,15 @@ const EventDetailsLayout = () => {
         const { data } = await api.get(`/events/event/${slug}`);
         setEvent(data);
       } catch (error) {
-        console.log(error);
+        const err = handleApiError(error);
+        toast.error(err);
       }
     };
     get_data();
   }, [slug]);
   return (
     <div>
-      <section
-        className="h-[50vh] lg:h-[90vh]"
-        style={{
-          backgroundImage: `url("/assets/Banners/others_bg.jpg")`,
-          backgroundPosition: "center center ",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="flex justify-center items-center h-full">
-          <h1 className="text-white text-3xl lg:text-6xl ">Event Details</h1>
-        </div>
-      </section>
+      <Hero page="Event Details" subpage="Event Details" />
       <section className="h-max px-10 py-20 flex flex-col lg:flex-row items-center lg:items-start gap-10 bg-[#f6f6f6]">
         <div className="flex flex-col gap-10 w-full lg:w-2/3">
           <div className="bg-white h-max flex flex-col gap-4  p-3 lg:p-10">

@@ -1,48 +1,13 @@
-import api from "@/instance/api";
-import React, { useState } from "react";
+import FaqForm from "@/ui/Components/FaqForm";
+import Hero from "@/ui/Components/Hero";
+import React from "react";
 import { GoMail } from "react-icons/go";
 import { IoLocationOutline } from "react-icons/io5";
 
 const ContactLayout = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    try {
-      const { data } = await api.post(`/faqs/post-faqs`, {
-        name,
-        email,
-        message,
-      });
-
-      console.log(data);
-      if (data.status === 1) {
-        setName("");
-        setEmail("");
-        setMessage("");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <div>
-      <section
-        className="h-[50vh] lg:h-[90vh]"
-        style={{
-          backgroundImage: `url("/assets/Banners/others_bg.jpg")`,
-          backgroundPosition: "center center ",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="flex justify-center items-center h-full">
-          <h1 className="text-white text-3xl lg:text-6xl ">Contact Us</h1>
-        </div>
-      </section>
+      <Hero page="Contact Us" />
       <section className="py-20 px-10 flex flex-col lg:flex-row gap-5 bg-[#f6f6f6]">
         <div className="w-full lg:w-5/12">
           <div className="my-5">
@@ -96,47 +61,8 @@ const ContactLayout = () => {
             </div>
           </div>
         </div>
-        <div className="lg:w-7/12">
-          <div className="my-5">
-            <h2 className="text-[#002147] text-4xl font-bold">
-              Do You Have Any Questions
-            </h2>
 
-            <form
-              onSubmit={(e) => handleSubmit(e)}
-              className="flex flex-col gap-5 mt-5 items-center lg:items-start"
-            >
-              <div className="flex flex-col w-full lg:flex-row gap-5">
-                <input
-                  className="w-full h-12 pl-4 outline-none focus:!outline-none"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Name :"
-                />
-                <input
-                  className="w-full h-12 pl-4 outline-none focus:!outline-none"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email :"
-                />
-              </div>
-
-              <textarea
-                rows={5}
-                className="w-full pl-4 focus:border-current focus:ring-0 focus:!outline-none !outline-none"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Message :"
-              ></textarea>
-              <button
-                type="submit"
-                className="uppercase px-20 font-semibold py-3 bg-[#fdc800] w-max"
-              >
-                Submit Now
-              </button>
-            </form>
-          </div>
-        </div>
+        <FaqForm />
       </section>
       <section className="">
         <iframe

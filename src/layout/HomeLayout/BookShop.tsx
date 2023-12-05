@@ -2,22 +2,23 @@ import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
 import api from "@/instance/api";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { URLS } from "@/utils/URLS";
+import { handleApiError } from "@/utils/handleApiErrors";
 import { useRouter } from "next/navigation";
 import { RatingStar } from "rating-star";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const BookShop = () => {
   const router = useRouter();
-
   const [all_books, setAllBooks] = useState([]);
   useEffect(() => {
     const getBooks = async () => {
       try {
         const { data } = await api.get("/book/feed-books");
         setAllBooks(data);
-        console.log(data);
       } catch (error) {
-        console.log(error);
+        const err = handleApiError(error);
+        toast.error(err);
       }
     };
     getBooks();

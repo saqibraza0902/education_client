@@ -1,9 +1,12 @@
 import api from "@/instance/api";
+import Hero from "@/ui/Components/Hero";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { URLS } from "@/utils/URLS";
+import { handleApiError } from "@/utils/handleApiErrors";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BsPerson } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const CoursesLayout = () => {
   const [all_courses, setAllCourses] = useState([]);
@@ -15,26 +18,15 @@ const CoursesLayout = () => {
         const { data } = await api.get("/courses/data");
         setAllCourses(data.course);
       } catch (error) {
-        console.log(error);
+        const err = handleApiError(error);
+        toast.error(err);
       }
     };
     getCourse();
   }, []);
   return (
     <div>
-      <section
-        className="h-[50vh] lg:h-[90vh]"
-        style={{
-          backgroundImage: `url("/assets/Banners/others_bg.jpg")`,
-          backgroundPosition: "center center ",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="flex justify-center items-center h-full">
-          <h1 className="text-white text-3xl lg:text-6xl ">Our Courses</h1>
-        </div>
-      </section>
+      <Hero page="Our Courses" />
       <section className="px-10 py-20 bg-[#f6f6f6]">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {all_courses?.map((item: any, index: number) => (

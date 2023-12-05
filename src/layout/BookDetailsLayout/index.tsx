@@ -1,11 +1,12 @@
 import api from "@/instance/api";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { useAppDispatch } from "@/hooks/hooks";
-import { usePathname, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { RatingStar } from "rating-star";
-import { AddCart } from "@/store/slices/cart";
+import { AddCart } from "@/store/slices/cart/index";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import Hero from "@/ui/Components/Hero";
 
 const BookDetailsLayout = () => {
   const [count, setCount] = useState(1);
@@ -18,7 +19,6 @@ const BookDetailsLayout = () => {
       try {
         const res = await api.get(`/book/get-book?id=${slug}`);
         setBook(res.data.book);
-
         console.log(res.data.books);
       } catch (error) {
         console.log(error);
@@ -44,19 +44,7 @@ const BookDetailsLayout = () => {
   };
   return (
     <div>
-      <section
-        className="h-[50vh] lg:h-[90vh]"
-        style={{
-          backgroundImage: `url("/assets/Banners/others_bg.jpg")`,
-          backgroundPosition: "center center ",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="flex justify-center items-center h-full">
-          <h1 className="text-white text-3xl lg:text-6xl ">Book Details</h1>
-        </div>
-      </section>
+      <Hero page="Book Details" subpage="Book Details" />
       <section>
         <div className="mx-10 flex flex-col lg:flex-row gap-5 py-20">
           <div className="w-full md:h-[40vh] lg:h-[70vh] flex justify-center items-center bg-[#e6e6e6]">

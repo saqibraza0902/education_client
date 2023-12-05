@@ -12,7 +12,9 @@ import api from "@/instance/api";
 import { useParams } from "next/navigation";
 import { TimeConvertor } from "@/utils/TimeConvertor";
 import BookingForm from "@/ui/Components/BookingForm";
-
+import { handleApiError } from "@/utils/handleApiErrors";
+import { toast } from "react-toastify";
+import Hero from "@/ui/Components/Hero";
 interface IVideo {
   _id: string;
   title: string;
@@ -51,9 +53,6 @@ const Tabs = [
   },
 ];
 const CoursesDetailLayout = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const [course, setCourse] = useState<ICourse>();
   const [activeTab, setActiveTab] = useState(1);
 
@@ -67,26 +66,15 @@ const CoursesDetailLayout = () => {
         const { data } = await api.get(`/courses/course/${slug}`);
         setCourse(data);
       } catch (error) {
-        console.log(error);
+        const err = handleApiError(error);
+        toast.error(err);
       }
     };
     get_data();
   }, [slug]);
   return (
     <div>
-      <section
-        className="h-[50vh] lg:h-[90vh]"
-        style={{
-          backgroundImage: `url("/assets/Banners/others_bg.jpg")`,
-          backgroundPosition: "center center ",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="flex justify-center items-center h-full">
-          <h1 className="text-white text-3xl lg:text-6xl ">Book Details</h1>
-        </div>
-      </section>
+      <Hero page="Course Details" subpage="Course Details" />
       <section className="h-max px-10 py-20 flex flex-col lg:flex-row items-center lg:items-start gap-10 bg-[#f6f6f6]">
         <div className="flex flex-col gap-10 w-full lg:w-2/3">
           <div className="bg-white h-max flex flex-col   p-3 lg:p-10">
