@@ -9,4 +9,6 @@ export const URLS = {
   CART: "/cart",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  PROFILE: "/profile",
+  ORDERS: "/profile/orders",
 };

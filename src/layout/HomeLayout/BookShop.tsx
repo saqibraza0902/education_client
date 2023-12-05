@@ -84,12 +84,12 @@ const BookShop = () => {
           className="font-semibold flex justify-center
             mt-14"
         >
-          <button className="theme-btn1 relative z-1 hover:-translate-y-2 ">
-            <span className="bg-yellow-300 px-5 py-4 uppercase  text-xs font-semibold transition">
-              <span
-                onClick={() => router.push(URLS.SHOP)}
-                className="text-decoration-none text-black"
-              >
+          <button
+            onClick={() => router.push(URLS.SHOP)}
+            className="theme-btn1 relative z-1 hover:-translate-y-2 "
+          >
+            <span className="bg-yellow-300 px-8 py-4 uppercase  text-xs font-semibold transition">
+              <span className="text-decoration-none text-black">
                 {" "}
                 View More
               </span>

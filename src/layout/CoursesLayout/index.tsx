@@ -3,6 +3,7 @@ import Hero from "@/ui/Components/Hero";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { URLS } from "@/utils/URLS";
 import { handleApiError } from "@/utils/handleApiErrors";
+import TextTruncate from "@/utils/texttruncate";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BsPerson } from "react-icons/bs";
@@ -51,7 +52,7 @@ const CoursesLayout = () => {
                   {item.courseTitle}
                 </span>
                 <span className="text-[#8a8a8a] text-sm text-justify ie11Support">
-                  {item.description}
+                  <TextTruncate text={item.description} maxLengthPerLine={90} />
                 </span>
               </div>
               <div className=" flex justify-between  py-2 px-3">

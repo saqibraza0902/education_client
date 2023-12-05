@@ -60,7 +60,7 @@ const CartLayout = () => {
         </div>
       </section>
       <section className="px-10 py-20 bg-[#f6f6f6]">
-        <div className="grid grid-cols-3  !justify-items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-3  !justify-items-center">
           {cart.map((item, index) => (
             <CartComponent key={index} item={item} />
           ))}

@@ -1,9 +1,26 @@
-import React, { useState } from "react";
-
+import React from "react";
+import { Form, FormControl, FormField } from "../form/form";
+import { FormItem, FormMessage } from "../form/form";
+import { BookingSchema } from "@/schema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import Input from "../form/Input";
+import TextArea from "../form/TextArea";
 const BookingForm = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const form = useForm<z.infer<typeof BookingSchema>>({
+    resolver: zodResolver(BookingSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      rollno: "",
+      department: "",
+      message: "",
+    },
+  });
+  const handleSubmit = async (values: z.infer<typeof BookingSchema>) => {
+    console.log(values);
+  };
   return (
     <div className="bg-white h-max p-4 lg:p-10">
       <div className="flex flex-col justify-center items-center">
@@ -15,61 +32,91 @@ const BookingForm = () => {
           accusantium doloremque laudantium totam
         </p>
       </div>
-      <form className="flex flex-col items-center gap-3">
-        <div className="flex flex-col w-full lg:flex-row gap-3 lg:gap-5">
-          <div className="input w-full">
-            <input
-              type="text"
-              className="w-full h-12 pl-4 focus:border-current focus:ring-0 border-none"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Name :"
-            />
-          </div>
-          <div className="input w-full">
-            <input
-              type="email"
-              className="w-full h-12 pl-4 focus:border-current focus:ring-0 border-none"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email :"
-            />
-          </div>
-        </div>
-        <div className="flex flex-col w-full lg:flex-row gap-3 lg:gap-5">
-          <div className="input w-full">
-            <input
-              type="number"
-              className="w-full h-12 pl-4 focus:border-current focus:ring-0 border-none"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Roll No :"
-            />
-          </div>
-          <div className="input w-full">
-            <input
-              type="text"
-              className="w-full h-12 pl-4 focus:border-current focus:ring-0 border-none"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Department :"
-            />
-          </div>
-        </div>
-        <textarea
-          rows={5}
-          className="w-full pl-4 focus:border-current focus:ring-0 focus:!outline-none !outline-none"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Message :"
-        ></textarea>
-        <button
-          type="submit"
-          className="uppercase px-20 font-semibold py-3 bg-[#002147] text-white hover:!text-[#002147] transition-all duration-500 hover:bg-[#fdc800] w-max"
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(handleSubmit)}
+          className="flex flex-col items-center gap-3"
         >
-          Book Now
-        </button>
-      </form>
+          <div className="flex flex-col w-full lg:flex-row gap-3 lg:gap-5">
+            <div className="input w-full">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Input placeholder="Your name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="input w-full">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Input placeholder="Your name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col w-full lg:flex-row gap-3 lg:gap-5">
+            <div className="input w-full">
+              <FormField
+                control={form.control}
+                name="rollno"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Input placeholder="Your name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="input w-full">
+              <FormField
+                control={form.control}
+                name="department"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Input placeholder="Your name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormControl>
+                  <TextArea placeholder="Your name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <button
+            type="submit"
+            className="uppercase px-20 font-semibold py-3 bg-[#002147] text-white hover:!text-[#002147] transition-all duration-500 hover:bg-[#fdc800] w-max"
+          >
+            Book Now
+          </button>
+        </form>
+      </Form>
     </div>
   );
 };

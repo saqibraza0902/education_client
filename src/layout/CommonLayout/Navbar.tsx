@@ -12,13 +12,16 @@ import { NavArray } from "@/mock";
 import { useRouter } from "next/navigation";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { useAppSelector } from "@/hooks/hooks";
-
-export const Navbar = () => {
+import { RxAvatar } from "react-icons/rx";
+import { URLS } from "@/utils/URLS";
+interface Props {
+  open: boolean;
+  handleclose: () => void;
+}
+export const Navbar = ({ handleclose, open }: Props) => {
   const [show, setShow] = useState<any>(false);
   const router = useRouter();
-
   const cart = useAppSelector((state: any) => state.cart.cart);
-  console.log(cart);
   useEffect(() => {
     const scrollBar = () => {
       if (window.scrollY > 150) {
@@ -37,14 +40,11 @@ export const Navbar = () => {
   useEffect(() => {
     return localStorage.setItem("showNavbar", show);
   }, [show]);
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(!open);
-  };
+
   return (
     <div className="relative">
-      {<CartDrawer close={handleClose} open={open} />}
-      <nav className="text-white bg-[#002147] flex flex-col gap-2 md:flex-row justify-between py-2 px-10">
+      {<CartDrawer close={handleclose} open={open} />}
+      <nav className="text-white  bg-[#002147] flex flex-col gap-2 md:flex-row justify-between py-2 px-10">
         <div className="text-[12px] flex justify-center gap-5">
           <div className="flex items-center gap-2">
             <i className="text-yellow-500">
@@ -95,7 +95,7 @@ export const Navbar = () => {
             <ImageWithFallback src="/assets/Logo/logo.png" alt="Logo" />
           </span>
         </div>
-        <div className="flex gap-10">
+        <div className="flex items-center gap-10">
           <ul className="flex flex-row gap-5 m-0 text-[#444444] uppercase text-sm font-semibold">
             {NavArray.map((item, i) => (
               <li key={i}>
@@ -108,8 +108,14 @@ export const Navbar = () => {
               </li>
             ))}
           </ul>
+          <div
+            className="cursor-pointer"
+            onClick={() => router.push(URLS.PROFILE)}
+          >
+            <RxAvatar size={20} />
+          </div>
           <div className="relative">
-            <i className="cursor-pointer" onClick={() => setOpen(!open)}>
+            <i className="cursor-pointer" onClick={() => handleclose()}>
               <BsCart2 />
             </i>
             <span className="absolute top-[-10px] left-[-10px] text-[10px] text-white  bg-red-600 px-1 rounded-full">
@@ -119,7 +125,7 @@ export const Navbar = () => {
         </div>
       </nav>
       <nav
-        className={`z-50 flex md:hidden items-center justify-between px-10 py-4 transition-all duration-300
+        className={`z-30 flex md:hidden items-center justify-between px-10 py-4 transition-all duration-300
             ${
               show === true
                 ? "bg-white top-[-8px] fixed w-full shadow translate-y-2"
@@ -134,9 +140,16 @@ export const Navbar = () => {
           />
         </div>
         <div className="flex justify-between text-xl gap-3">
-          <i>
-            <BsCart2 />
-          </i>
+          <div className="relative">
+            <i className="cursor-pointer" onClick={() => handleclose()}>
+              <BsCart2 />
+            </i>
+            <div className="absolute top-[-18px] left-[-10px]">
+              <span className="text-xs p-1 text-white  bg-red-600 h-10 w-10 rounded-full">
+                {cart.length}
+              </span>
+            </div>
+          </div>
           <i>
             <HiMiniBars3 />
           </i>

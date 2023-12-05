@@ -28,7 +28,7 @@ export const CartDrawer = ({ open, close }: Props) => {
   };
   return (
     <div
-      className={`fixed top-0 z-50 right-0 h-screen w-72 bg-[#002147] transition-transform duration-300 transform ${
+      className={`fixed top-0 z-50 right-0 h-screen w-full md:w-72 bg-[#002147] transition-transform duration-300 transform ${
         open ? "translate-x-0" : "translate-x-full"
       } ${cart.length > 1 ? "overflow-y-scroll" : ""}`}
     >

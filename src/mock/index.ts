@@ -306,3 +306,21 @@ export const Categories = [
     courses: "13",
   },
 ];
+export const ProfileArray = [
+  {
+    title: "Events",
+    path: "/profile/events",
+  },
+  {
+    title: "Courses",
+    path: "/profile/courses",
+  },
+  {
+    title: "Orders",
+    path: URLS.ORDERS,
+  },
+  {
+    title: "Setting",
+    path: URLS.PROFILE,
+  },
+];
