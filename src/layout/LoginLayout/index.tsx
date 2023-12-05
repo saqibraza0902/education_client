@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/ui/form/form";
 import api from "@/instance/api";
-import { loginUser } from "@/store/slices/auth";
+import { loginUser } from "@/store/slices/auth/auth";
 import { useAppDispatch } from "@/hooks/hooks";
 import { toast } from "react-toastify";
 import { handleApiError } from "@/utils/handleApiErrors";

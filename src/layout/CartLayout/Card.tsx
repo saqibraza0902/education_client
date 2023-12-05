@@ -1,5 +1,5 @@
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { Decrement, DeleteProduct, Increament } from "@/store/slices/cart";
+import { Decrement, DeleteProduct, Increament } from "@/store/slices/cart/cart";
 import { useAppDispatch } from "@/hooks/hooks";
 import { BsTrash } from "react-icons/bs";
 import ImageWithFallback from "@/utils/Imgwithfallback";

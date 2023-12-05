@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/hooks/hooks";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { RatingStar } from "rating-star";
-import { AddCart } from "@/store/slices/cart/index";
+import { AddCart } from "@/store/slices/cart/cart";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Hero from "@/ui/Components/Hero";
 

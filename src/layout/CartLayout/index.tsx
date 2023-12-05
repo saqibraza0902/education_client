@@ -5,7 +5,7 @@ import api from "@/instance/api";
 import { useRouter, useSearchParams } from "next/navigation";
 import { handleApiError } from "@/utils/handleApiErrors";
 import { toast } from "react-toastify";
-import { ClearCart } from "@/store/slices/cart";
+import { ClearCart } from "@/store/slices/cart/cart";
 const CartLayout = () => {
   const { cart } = useAppSelector((state) => state.cart);
   const { user } = useAppSelector((state) => state.auth);

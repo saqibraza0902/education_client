@@ -3,7 +3,7 @@ import { MdClose } from "react-icons/md";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { useAppDispatch, useAppSelector } from "@/hooks/hooks";
-import { Decrement, DeleteProduct, Increament } from "@/store/slices/cart";
+import { Decrement, DeleteProduct, Increament } from "@/store/slices/cart/cart";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { useRouter } from "next/navigation";
 import { URLS } from "@/utils/URLS";
