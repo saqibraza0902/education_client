@@ -11,4 +11,5 @@ export const URLS = {
   SIGNUP: "/signup",
   PROFILE: "/profile",
   ORDERS: "/profile/orders",
+  BOOKED_EVENTS: "/profile/events",
 };

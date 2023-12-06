@@ -1,66 +1,58 @@
 import React, { useEffect, useState } from "react";
-import ProfileSidebar from "../CommonLayout/ProfileSidebar";
-import { useAppSelector } from "@/hooks/hooks";
+import ProfileCommon from "../CommonLayout/ProfileCommon";
 import { handleApiError } from "@/utils/handleApiErrors";
 import { toast } from "react-toastify";
 import api from "@/instance/api";
-import { IBook, IUser } from "@/utils/types";
-import ImageWithFallback from "@/utils/Imgwithfallback";
-import FormattedDate from "@/utils/formatdate";
+import { useAppSelector } from "@/hooks/hooks";
+import { IEvent, IUser } from "@/utils/types";
 import { Roboto } from "next/font/google";
-import ProfileCommon from "../CommonLayout/ProfileCommon";
+import FormattedDate from "@/utils/formatdate";
 const inter = Roboto({ weight: "400", subsets: ["latin"] });
+
 interface IItem {
   _id: string;
-  book: IBook;
-  price: number;
-  qnty: number;
-  status: string;
+  event: IEvent;
+  rollno: string;
+  department: string;
   title: string;
   user: IUser;
   createdAt: string;
 }
-
-const OrdersLayout = () => {
-  const { token, user } = useAppSelector((s) => s.auth);
-  const [orders, setOrders] = useState([]);
+const BookedEvents = () => {
+  const { user } = useAppSelector((s) => s.auth);
+  const [bookings, setBookings] = useState([]);
   useEffect(() => {
-    const get_orders = async () => {
+    const get_data = async () => {
       try {
-        const headers = {
-          authorization: token,
-        };
-        const { data } = await api.get(`/payment/order/${user?.id}`, {
-          headers,
-        });
+        const { data } = await api.get(`/booking/${user?.id}`);
+        setBookings(data);
         console.log(data);
-        setOrders(data);
       } catch (error) {
         const err = handleApiError(error);
         toast.error(err);
       }
     };
-    get_orders();
-  }, [user, token]);
+    get_data();
+  }, [user]);
   return (
     <ProfileCommon>
       <div className="w-full overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className=" text-sm text-white bg-brand_yellow-500 whitespace-nowrap">
-              <th className="px-4 py-3 font-medium rounded-l-xl">Image</th>
-              <th className="px-4 py-3 font-medium text-center">Title</th>
-              <th className="px-4 py-3 font-medium text-center">Price</th>
-              <th className="px-4 py-3 font-medium text-center">Qnty</th>
-              <th className="px-4 py-3 font-medium text-center">Date</th>
-              <th className="px-4 py-3 font-medium text-center">Author</th>
+              <th className="px-4 py-3 font-medium rounded-l-xl">Name</th>
+              <th className="px-4 py-3 font-medium text-center">Roll no</th>
+              <th className="px-4 py-3 font-medium text-center">Dept</th>
+              <th className="px-4 py-3 font-medium text-center">Event Name</th>
+              <th className="px-4 py-3 font-medium text-center">Event Date</th>
+              <th className="px-4 py-3 font-medium text-center">Speaker</th>
               <th className="px-4 py-3 font-medium text-center rounded-r-xl">
                 Email
               </th>
             </tr>
           </thead>
           <tbody className="space-y-4">
-            {orders.map((item: IItem) => (
+            {bookings.map((item: IItem) => (
               <TableRow item={item} key={item._id} />
             ))}
           </tbody>
@@ -70,8 +62,7 @@ const OrdersLayout = () => {
   );
 };
 
-export default OrdersLayout;
-
+export default BookedEvents;
 interface RowProp {
   item: IItem;
 }
@@ -83,23 +74,17 @@ export const TableRow = ({ item }: RowProp) => {
         key={item._id}
         className={`bg-brand_white-300 text-brand_blue-400  h-16  px-3 rounded-md ${inter.className}`}
       >
-        <td className="px-4 py-3 text-center rounded-l-lg">
-          <ImageWithFallback
-            alt="book"
-            src={item.book.image}
-            className="h-10 w-10 rounded-full"
-          />
-        </td>
+        <td className="px-4 py-3 text-center rounded-l-lg">{item.user.name}</td>
         <td className="px-4 py-3 flex-nowrap text-center whitespace-nowrap">
-          {item.title}
+          {item.rollno}
         </td>
-        <td className="px-4 py-3 text-center">{item.price}</td>
-        <td className="px-4 py-3 text-center">{item.qnty}</td>
+        <td className="px-4 py-3 text-center">{item.department}</td>
+        <td className="px-4 py-3 text-center">{item.event.eventTitle}</td>
         <td className="px-4 py-3 text-center whitespace-nowrap">
-          <FormattedDate date={item.createdAt} />
+          <FormattedDate date={item.event.date} />
         </td>
         <td className="px-4 py-3 text-center whitespace-nowrap">
-          {item.book.writer}
+          {item.event.speaker}
         </td>
         <td className="px-4 py-3 text-center rounded-r-lg">
           {item.user.email}

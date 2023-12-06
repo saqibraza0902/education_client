@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/hooks/hooks";
 import api from "@/instance/api";
 import BookingForm from "@/ui/Components/BookingForm";
 import Hero from "@/ui/Components/Hero";
@@ -23,12 +24,16 @@ interface IEvent {
 }
 const EventDetailsLayout = () => {
   const [event, setEvent] = useState<IEvent>();
+  const { token } = useAppSelector((s) => s.auth);
 
   const { slug } = useParams();
   useEffect(() => {
     const get_data = async () => {
       try {
-        const { data } = await api.get(`/events/event/${slug}`);
+        const headers = {
+          authorization: token,
+        };
+        const { data } = await api.get(`/events/event/${slug}`, { headers });
         setEvent(data);
       } catch (error) {
         const err = handleApiError(error);
@@ -36,7 +41,7 @@ const EventDetailsLayout = () => {
       }
     };
     get_data();
-  }, [slug]);
+  }, [slug, token]);
   return (
     <div>
       <Hero page="Event Details" subpage="Event Details" />

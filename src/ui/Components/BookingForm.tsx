@@ -7,7 +7,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Input from "../form/Input";
 import TextArea from "../form/TextArea";
+import { handleApiError } from "@/utils/handleApiErrors";
+import { toast } from "react-toastify";
+import api from "@/instance/api";
+import { useAppSelector } from "@/hooks/hooks";
+import { useParams } from "next/navigation";
+
 const BookingForm = () => {
+  const { user } = useAppSelector((s) => s.auth);
+  const { slug } = useParams();
   const form = useForm<z.infer<typeof BookingSchema>>({
     resolver: zodResolver(BookingSchema),
     defaultValues: {
@@ -19,15 +27,27 @@ const BookingForm = () => {
     },
   });
   const handleSubmit = async (values: z.infer<typeof BookingSchema>) => {
-    console.log(values);
+    const value = {
+      ...values,
+      user: user?.id,
+      event: slug,
+    };
+    try {
+      const { data } = await api.post("/booking/post", value);
+      toast.success(data.message);
+      form.reset();
+    } catch (error) {
+      const err = handleApiError(error);
+      toast.error(err);
+    }
   };
   return (
     <div className="bg-white h-max p-4 lg:p-10">
-      <div className="flex flex-col justify-center items-center">
-        <h4 className="text-center text-[#002147] font-bold text-3xl">
+      <div className="flex flex-col justify-center mb-4 items-center">
+        <h4 className="text-center text-brand_blue-400 font-bold text-3xl">
           Book Your Seat
         </h4>
-        <p className="text-center w-full lg:w-2/3 text-[#8a8a8a] text-sm font-normal">
+        <p className="text-center w-full lg:w-2/3 text-brand_pink-500 text-sm font-normal">
           Sed ut perspiciatis unde omnis iste natus error sit voluptatem
           accusantium doloremque laudantium totam
         </p>
@@ -59,7 +79,7 @@ const BookingForm = () => {
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormControl>
-                      <Input placeholder="Your name" {...field} />
+                      <Input placeholder="Your email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -75,7 +95,7 @@ const BookingForm = () => {
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormControl>
-                      <Input placeholder="Your name" {...field} />
+                      <Input placeholder="Your roll no" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -89,7 +109,7 @@ const BookingForm = () => {
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormControl>
-                      <Input placeholder="Your name" {...field} />
+                      <Input placeholder="Your department" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -103,7 +123,7 @@ const BookingForm = () => {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <TextArea placeholder="Your name" {...field} />
+                  <TextArea placeholder="Your message" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

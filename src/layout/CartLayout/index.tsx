@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { ClearCart } from "@/store/slices/cart/cart";
 const CartLayout = () => {
   const { cart } = useAppSelector((state) => state.cart);
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, token } = useAppSelector((state) => state.auth);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const params = useSearchParams();
@@ -19,7 +19,10 @@ const CartLayout = () => {
   };
   const checkout = async () => {
     try {
-      const { data } = await api.post(`/payment/pay`, postdata);
+      const headers = {
+        authorization: token,
+      };
+      const { data } = await api.post(`/payment/pay`, postdata, { headers });
       if (data.url) {
         router.push(data.url);
       }

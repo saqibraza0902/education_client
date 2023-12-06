@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { ProfileSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import ProfileCommon from "../CommonLayout/ProfileCommon";
 const ProfileLayout = () => {
   const { user } = useAppSelector((state) => state.auth);
   console.log(user);
@@ -25,8 +26,7 @@ const ProfileLayout = () => {
     console.log(values);
   };
   return (
-    <div className="bg-[#f9f9f9] flex h-screen px-12">
-      <ProfileSidebar />
+    <ProfileCommon>
       <div className="w-full flex justify-center items-center">
         <Form {...form}>
           <form
@@ -91,14 +91,14 @@ const ProfileLayout = () => {
             </div>
             <button
               type="submit"
-              className="w-full mt-5 font-semibold bg-[#002147] text-[#fdc800] py-2 px-4 rounded cursor-pointer hover:bg-[#fdc800] hover:text-[#002147] transition-all duration-500"
+              className=" mt-5 font-semibold bg-brand_blue-400 text-brand_yellow-500 w-72 py-2 px-4 rounded cursor-pointer hover:bg-brand_yellow-500 hover:text-brand_blue-400 transition-all duration-500"
             >
               Submit
             </button>
           </form>
         </Form>
       </div>
-    </div>
+    </ProfileCommon>
   );
 };
 

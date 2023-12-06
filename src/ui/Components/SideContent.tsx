@@ -22,23 +22,12 @@ const SideContent = () => {
           {Categories.map((item, i) => (
             <div
               key={i}
-              className="flex  justify-between text-[#777777] text-base !font-mono font-light"
+              className="flex  justify-between text-[#777777] text-base font-light"
             >
               <span>{item.category}</span>
               <span>{item.courses}</span>
             </div>
           ))}
-        </div>
-      </div>
-      <div className="p-4 bg-white relative">
-        {/* <img src={course_banner_01} alt="course banner" /> */}
-        <div className="absolute top-1/2 left-0 px-4 flex flex-col items-center">
-          <h4 className="text-white text-center text-xl">
-            New EBooks are Available in Our Shop
-          </h4>
-          <button className="px-4 py-2 bg-white text-[#444444] w-max hover:!bg-[#fdc800] transition-all duration-500">
-            Show Now
-          </button>
         </div>
       </div>
     </div>

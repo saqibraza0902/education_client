@@ -309,18 +309,22 @@ export const Categories = [
 export const ProfileArray = [
   {
     title: "Events",
-    path: "/profile/events",
+    prefix: URLS.BOOKED_EVENTS,
+    path: URLS.BOOKED_EVENTS,
   },
   {
     title: "Courses",
+    prefix: "/profile/courses",
     path: "/profile/courses",
   },
   {
     title: "Orders",
+    prefix: URLS.ORDERS,
     path: URLS.ORDERS,
   },
   {
     title: "Setting",
+    prefix: URLS.PROFILE,
     path: URLS.PROFILE,
   },
 ];

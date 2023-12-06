@@ -34,3 +34,10 @@ export interface IInstructor {
   vision: string;
   image: string;
 }
+export interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  phone: number;
+  dob: string;
+}

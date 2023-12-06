@@ -1,13 +1,7 @@
+import { IUser } from "@/utils/types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface IUser {
-  id: string;
-  name: string;
-  email: string;
-  phone: number;
-  dob: string;
-}
 interface AuthState {
   token: string | null;
   isLoggedIn: boolean;

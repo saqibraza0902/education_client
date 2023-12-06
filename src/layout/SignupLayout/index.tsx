@@ -37,6 +37,7 @@ const SignupLayout = () => {
     try {
       const { data } = await api.post("/user/signup", values);
       console.log(data);
+      toast.success(data.mesage);
       form.reset();
     } catch (error) {
       const err = handleApiError(error);
@@ -100,7 +101,7 @@ const SignupLayout = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} />
+                        <Input type="password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -117,7 +118,7 @@ const SignupLayout = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} />
+                        <Input type="password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

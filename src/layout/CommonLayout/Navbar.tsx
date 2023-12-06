@@ -22,6 +22,7 @@ export const Navbar = ({ handleclose, open }: Props) => {
   const [show, setShow] = useState<any>(false);
   const router = useRouter();
   const cart = useAppSelector((state: any) => state.cart.cart);
+  const { token, user } = useAppSelector((s) => s.auth);
   useEffect(() => {
     const scrollBar = () => {
       if (window.scrollY > 150) {
@@ -110,7 +111,13 @@ export const Navbar = ({ handleclose, open }: Props) => {
           </ul>
           <div
             className="cursor-pointer"
-            onClick={() => router.push(URLS.PROFILE)}
+            onClick={() => {
+              if (user?.id && token) {
+                router.push(URLS.PROFILE);
+              } else {
+                router.push(URLS.LOGIN);
+              }
+            }}
           >
             <RxAvatar size={20} />
           </div>

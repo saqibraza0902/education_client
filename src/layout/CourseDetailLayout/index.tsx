@@ -51,6 +51,10 @@ const Tabs = [
     title: "Reviews",
     id: 4,
   },
+  {
+    title: "Buy now",
+    id: 5,
+  },
 ];
 const CoursesDetailLayout = () => {
   const [course, setCourse] = useState<ICourse>();
@@ -174,6 +178,14 @@ const CoursesDetailLayout = () => {
                 </div>
               )}
               {activeTab === 4 && <div>Reviews Content</div>}
+              {activeTab === 5 && (
+                <div>
+                  <p>Buy this course</p>
+                  <button className="bg-brand_yellow-500 text-brand_blue-400 px-7 py-2">
+                    Purchase
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-end pt-2 gap-2">
