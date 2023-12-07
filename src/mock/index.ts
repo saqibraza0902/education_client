@@ -314,8 +314,8 @@ export const ProfileArray = [
   },
   {
     title: "Courses",
-    prefix: "/profile/courses",
-    path: "/profile/courses",
+    prefix: URLS.BOOKED_COURSES,
+    path: URLS.BOOKED_COURSES,
   },
   {
     title: "Orders",

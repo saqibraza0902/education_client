@@ -1,16 +1,25 @@
+interface IVideo {
+  _id: string;
+  title: string;
+  url: string;
+  duration: number;
+}
 export interface ICourse {
-  courseTitle: string;
+  _id: string;
+  title: string;
   category: string;
   description: string;
   advisor: IInstructor;
   time: string;
+  price: number;
   lectures: string;
-  videos: any;
+  videos: IVideo[];
   seats: number;
   image: string;
 }
 
 export interface IBook {
+  _id: string;
   title: string;
   writer: string;
   price: number;
@@ -29,6 +38,7 @@ export interface IEvent {
   image: string;
 }
 export interface IInstructor {
+  _id: string;
   name: string;
   role: string;
   vision: string;

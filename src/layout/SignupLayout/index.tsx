@@ -1,4 +1,5 @@
 import api from "@/instance/api";
+import Button from "@/ui/form/Button";
 import Input from "@/ui/form/Input";
 import { Form, FormField, FormItem } from "@/ui/form/form";
 import { FormControl, FormMessage } from "@/ui/form/form";
@@ -10,17 +11,23 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import * as z from "zod";
-const profileSchema = z.object({
-  name: z.string().min(1, "Name is required."),
-  email: z.string().min(1, "Email is required.").email("Invalid email."),
-  password: z.string().min(1, "Password is required"),
-  confirmpassword: z.string().min(1, "Password is required"),
-  phone: z.string().min(1, "Phone number is required"),
-  dob: z.string().min(1, "DOB is required."),
-});
+const profileSchema = z
+  .object({
+    name: z.string().min(1, "Name is required."),
+    email: z.string().min(1, "Email is required.").email("Invalid email."),
+    password: z.string().min(1, "Password is required"),
+    confirmpassword: z.string().min(1, "Password is required"),
+    phone: z.string().min(1, "Phone number is required"),
+    dob: z.string().min(1, "DOB is required."),
+  })
+  .refine((data) => data.password === data.confirmpassword, {
+    message: "Passwords don't match",
+    path: ["confirmpassword"],
+  });
 
 const SignupLayout = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -35,13 +42,16 @@ const SignupLayout = () => {
 
   const handleSignup = async (values: z.infer<typeof profileSchema>) => {
     try {
+      setLoading(true);
       const { data } = await api.post("/user/signup", values);
-      console.log(data);
-      toast.success(data.mesage);
+      setLoading(false);
+      toast.success(data.message);
       form.reset();
     } catch (error) {
       const err = handleApiError(error);
       toast.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,8 +63,8 @@ const SignupLayout = () => {
         </h1>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSignup)}>
-            <div className="flex flex-wrap -mx-2 mb-4">
-              <div className="w-full lg:w-1/2 px-2 mb-4">
+            <div className="flex flex-wrap -mx-2 mb-2">
+              <div className="w-full lg:w-1/2 px-2 mb-2">
                 <label className="block mb-2" htmlFor="name">
                   Name:
                 </label>
@@ -64,7 +74,7 @@ const SignupLayout = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} />
+                        <Input placeholder="Name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -81,7 +91,7 @@ const SignupLayout = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} />
+                        <Input placeholder="Email" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -101,7 +111,11 @@ const SignupLayout = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input type="password" {...field} />
+                        <Input
+                          placeholder="Password"
+                          type="password"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -118,7 +132,11 @@ const SignupLayout = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input type="password" {...field} />
+                        <Input
+                          placeholder="Confirm password"
+                          type="password"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -138,7 +156,7 @@ const SignupLayout = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} />
+                        <Input placeholder="Phone" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -164,14 +182,14 @@ const SignupLayout = () => {
               </div>
             </div>
 
-            <div className="flex justify-center">
-              <button
+            <div className="flex !justify-center ">
+              <Button
+                loading={loading}
                 type="submit"
-                className="bg-[#002147] w-56 flex justify-center border-[#002147] border-[1px] text-[#fdc800] py-2 px-4 rounded cursor-pointer hover:bg-[#255caf]
-           hover:text-[#fff] transition-all duration-500 "
+                className="!bg-brand_blue-400 !w-1/2 !text-brand_yellow-500 py-2 px-4 rounded cursor-pointer hover:!bg-brand_blue-200 hover:!text-white transition-all duration-500 "
               >
                 Sign Up
-              </button>
+              </Button>
             </div>
             <p className="pt-2 text-sm">
               {`Already have an account? Log in `}

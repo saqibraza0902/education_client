@@ -46,6 +46,7 @@ const Courses = () => {
     const get_courses = async () => {
       try {
         const { data } = await api.get("/courses/feed");
+        console.log(data);
         setCoursesList(data);
       } catch (error) {
         const err = handleApiError(error);
@@ -84,9 +85,7 @@ const Courses = () => {
                   <button className="bg-[#fdc800] px-3 py-2 rounded-sm transition w-fit text-xs font-medium text-[#002147] uppercase hover:bg-[#002147] hover:text-white">
                     Business
                   </button>
-                  <span className="text-xl font-medium">
-                    {item?.courseTitle}
-                  </span>
+                  <span className="text-xl font-medium">{item?.title}</span>
                   <span className="text-[#8a8a8a] text-sm">
                     <TextTruncate
                       text={item?.description}

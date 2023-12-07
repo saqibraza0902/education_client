@@ -4,7 +4,7 @@ import { useAppSelector } from "@/hooks/hooks";
 import { handleApiError } from "@/utils/handleApiErrors";
 import { toast } from "react-toastify";
 import api from "@/instance/api";
-import { IBook, IUser } from "@/utils/types";
+import { IBook, ICourse, IUser } from "@/utils/types";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import FormattedDate from "@/utils/formatdate";
 import { Roboto } from "next/font/google";
@@ -12,7 +12,8 @@ import ProfileCommon from "../CommonLayout/ProfileCommon";
 const inter = Roboto({ weight: "400", subsets: ["latin"] });
 interface IItem {
   _id: string;
-  book: IBook;
+  product: IBook;
+  product_type: string;
   price: number;
   qnty: number;
   status: string;
@@ -30,7 +31,7 @@ const OrdersLayout = () => {
         const headers = {
           authorization: token,
         };
-        const { data } = await api.get(`/payment/order/${user?.id}`, {
+        const { data } = await api.get(`/payment/order/${user?.id}?type=BOOK`, {
           headers,
         });
         console.log(data);
@@ -86,7 +87,7 @@ export const TableRow = ({ item }: RowProp) => {
         <td className="px-4 py-3 text-center rounded-l-lg">
           <ImageWithFallback
             alt="book"
-            src={item.book.image}
+            src={item.product.image}
             className="h-10 w-10 rounded-full"
           />
         </td>
@@ -99,7 +100,7 @@ export const TableRow = ({ item }: RowProp) => {
           <FormattedDate date={item.createdAt} />
         </td>
         <td className="px-4 py-3 text-center whitespace-nowrap">
-          {item.book.writer}
+          {item.product.writer}
         </td>
         <td className="px-4 py-3 text-center rounded-r-lg">
           {item.user.email}

@@ -12,4 +12,5 @@ export const URLS = {
   PROFILE: "/profile",
   ORDERS: "/profile/orders",
   BOOKED_EVENTS: "/profile/events",
+  BOOKED_COURSES: "/profile/courses",
 };

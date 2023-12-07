@@ -32,7 +32,7 @@ const Advisors = () => {
                 </div>
               </div>
               <div
-                className="opacity-0 h-[81%]  w-full group-hover:bg-gradient-to-t from-[#002147cc] to-[#37c800cc] 
+                className="opacity-0 h-[83%]  w-full group-hover:bg-gradient-to-t from-[#002147cc] to-[#37c800cc] 
                             group-hover:!opacity-100 group-hover:bg-opacity-20 absolute top-[0px] transition transform duration-300"
               >
                 <div className="transform absolute top-2/3 transition duration-300 ease-in-out group-hover:-translate-y-1">

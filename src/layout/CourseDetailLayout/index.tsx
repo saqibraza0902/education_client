@@ -9,30 +9,14 @@ import { FaFacebookF } from "react-icons/fa";
 import ImageWithFallback from "@/utils/Imgwithfallback";
 import { Categories } from "@/mock";
 import api from "@/instance/api";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { TimeConvertor } from "@/utils/TimeConvertor";
 import BookingForm from "@/ui/Components/BookingForm";
 import { handleApiError } from "@/utils/handleApiErrors";
 import { toast } from "react-toastify";
 import Hero from "@/ui/Components/Hero";
-interface IVideo {
-  _id: string;
-  title: string;
-  url: string;
-  duration: number;
-}
-interface ICourse {
-  _id: string;
-  courseTitle: string;
-  category: string;
-  description: string;
-  advisor: any;
-  time: string;
-  lectures: string;
-  videos: IVideo[];
-  seats: number;
-  image: string;
-}
+import { useAppSelector } from "@/hooks/hooks";
+import { ICourse } from "@/utils/types";
 
 const Tabs = [
   {
@@ -59,6 +43,8 @@ const Tabs = [
 const CoursesDetailLayout = () => {
   const [course, setCourse] = useState<ICourse>();
   const [activeTab, setActiveTab] = useState(1);
+  const router = useRouter();
+  const { user, token } = useAppSelector((state) => state.auth);
 
   const handleTabClick = (tabNumber: number) => {
     setActiveTab(tabNumber);
@@ -68,6 +54,7 @@ const CoursesDetailLayout = () => {
     const get_data = async () => {
       try {
         const { data } = await api.get(`/courses/course/${slug}`);
+        console.log(data);
         setCourse(data);
       } catch (error) {
         const err = handleApiError(error);
@@ -76,6 +63,24 @@ const CoursesDetailLayout = () => {
     };
     get_data();
   }, [slug]);
+  const postdata = {
+    course,
+    id: user?.id,
+  };
+  const checkout = async () => {
+    try {
+      const headers = {
+        authorization: token,
+      };
+      const { data } = await api.post(`/payment/course`, postdata, { headers });
+      if (data.url) {
+        router.push(data.url);
+      }
+    } catch (error) {
+      const err = handleApiError(error);
+      toast.error(err);
+    }
+  };
   return (
     <div>
       <Hero page="Course Details" subpage="Course Details" />
@@ -85,7 +90,7 @@ const CoursesDetailLayout = () => {
             <ImageWithFallback src={course?.image} alt="Detail pic" />
             <div className="border-b py-3">
               <h1 className="text-[#002147] transition-all duration-500 cursor-pointer w-max hover:text-[#fdc800] font-bold text-xl">
-                {course?.courseTitle}
+                {course?.title}
               </h1>
             </div>
             <div className="flex gap-x-7 py-3">
@@ -112,7 +117,7 @@ const CoursesDetailLayout = () => {
                       <div>
                         <span className="text-[#8a8a8a]">Advisor : </span>
                         <span className="text-[#002147] ml-1">
-                          {course?.advisor.name}
+                          {course?.advisor?.name}
                         </span>
                       </div>
                       <div>
@@ -163,16 +168,16 @@ const CoursesDetailLayout = () => {
               )}
               {activeTab === 3 && (
                 <div className="flex flex-col md:flex-row w-full pt-2">
-                  <ImageWithFallback src={course?.advisor.image} alt="" />
+                  <ImageWithFallback src={course?.advisor?.image} alt="" />
                   <div className="flex flex-col gap-2 pt-4 md:pl-4">
                     <span className="text-[#444444] text-xl font-semibold">
-                      {course?.advisor.name}
+                      {course?.advisor?.name}
                     </span>
                     <span className="text-[#777777] text-xs font-medium">
-                      {course?.advisor.role}
+                      {course?.advisor?.role}
                     </span>
                     <p className="text-justify text-[#8a8a8a] text-sm">
-                      {course?.advisor.vision}
+                      {course?.advisor?.vision}
                     </p>
                   </div>
                 </div>
@@ -181,7 +186,10 @@ const CoursesDetailLayout = () => {
               {activeTab === 5 && (
                 <div>
                   <p>Buy this course</p>
-                  <button className="bg-brand_yellow-500 text-brand_blue-400 px-7 py-2">
+                  <button
+                    onClick={() => checkout()}
+                    className="bg-brand_yellow-500 text-brand_blue-400 px-7 py-2"
+                  >
                     Purchase
                   </button>
                 </div>

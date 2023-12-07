@@ -17,6 +17,7 @@ import { loginUser } from "@/store/slices/auth/auth";
 import { useAppDispatch } from "@/hooks/hooks";
 import { toast } from "react-toastify";
 import { handleApiError } from "@/utils/handleApiErrors";
+import Button from "@/ui/form/Button";
 
 const LoginSchema = z.object({
   email: z.string().min(1, "Email is required.").email("Invalid email."),
@@ -24,6 +25,7 @@ const LoginSchema = z.object({
 });
 const LoginLayout = () => {
   const router = useRouter();
+  const [loading, setloading] = useState(false);
   const dispatch = useAppDispatch();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -35,13 +37,17 @@ const LoginLayout = () => {
   });
   const handleLogin = async (values: z.infer<typeof LoginSchema>) => {
     try {
+      setloading(true);
       const { data } = await api.post("/user/login", values);
       dispatch(loginUser({ token: data.token, user: data.user }));
-      form.reset();
       router.push(URLS.HOME);
+      setloading(false);
+      form.reset();
     } catch (error) {
       const err = handleApiError(error);
       toast.error(err);
+    } finally {
+      setloading(false);
     }
   };
   return (
@@ -80,13 +86,14 @@ const LoginLayout = () => {
               )}
             />
 
-            <button
+            <Button
+              loading={loading}
               type="submit"
-              className="w-full mt-5 bg-[#002147] text-[#fdc800] py-2 px-4 rounded cursor-pointer hover:bg-[#255caf]
-           hover:text-[#fff] transition-all duration-500"
+              className="w-full !h-12 !mt-5 !bg-brand_blue-400 !text-brand_yellow-500 !py-2  rounded cursor-pointer hover:!bg-brand_blue-200
+           hover:!text-[#fff] !transition-all !duration-500"
             >
               Login
-            </button>
+            </Button>
             <p className="pt-2 text-sm text-black">
               Dont have an account? Create new account{" "}
               <span className="underline cursor-pointer ">

@@ -22,6 +22,7 @@ const config: Config = {
           500: "#8a8a8a",
         },
         brand_blue: {
+          200: "#255caf",
           400: "#002147",
         },
         brand_yellow: {
